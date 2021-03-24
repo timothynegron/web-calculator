@@ -121,11 +121,6 @@ function clearDisplay() {
 // │   Bugs   │	
 // └──────────┘
 // (1) NaN23409+23094
-// (2) Err ... undefined
-// (3) Err * Number = Result
 // (4) Two operators back to back
-// (5) Decimal Calculations
 // (6) 50 + 50 + 50 + 50
-// Artifact on screen after pressing numbers and operators
-// Text Wrap?
 // If operator already exist then swap with new one being requested
