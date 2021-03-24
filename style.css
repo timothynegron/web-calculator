@@ -77,6 +77,7 @@ input:checked + label {
 
 #display {
     border: solid;
+    border-color: black;
     border-width: 2px;
     background-color: #29412d;
     width: 92%;
@@ -85,6 +86,23 @@ input:checked + label {
     -webkit-box-shadow: 0 10px 20px #777;
     -moz-box-shadow: 0 10px 20px #777;
     box-shadow: 0 10px 20px #777;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 38pt;
+    color: rgb(200, 179, 111);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#display-bottom {
+    margin-bottom: 20px;
+}
+
+#display-top {
+    height: 30%;
+    margin-bottom: 20px;
+    font-size: 12pt;
 }
 
 #bottom-container {
@@ -147,14 +165,16 @@ input:checked + label {
     align-items: center;
 }
 
-.button-style {
+.calc-button {
     width: 85%;
     height: 15%;
 }
 
-.button-style-color-1 {
+.calc-button-color-1 {
     background-color: rgb(98, 98, 98);
 }
+
+/* Media Query */
 
 @media all and (max-width: 550px){
     #calculator {
@@ -162,7 +182,7 @@ input:checked + label {
     }
 }
 
- @media all and (max-height: 1100px){
+@media all and (max-height: 1100px){
     #app {
         justify-content: flex-start;
         height: 100%;

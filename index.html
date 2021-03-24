@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="app" for="dark-mode">
@@ -15,72 +16,39 @@
         <div id="calculator">
             <div id="top-container">
                 <div id="display">
-                
+                    <div id="display-top">
+
+                    </div>
+                    <div id="display-bottom">
+
+                    </div>
                 </div>
             </div>
-
             <div id="bottom-container">
                 <div id="column-1" class="column-style">
-                    <button id="button-plus" class="button-style button-style-color-1">
-                        +
-                    </button>
-                    <button id="button-7" class="button-style">
-                        7
-                    </button>
-                    <button id="button-4" class="button-style">
-                        4
-                    </button>
-                    <button id="button-1" class="button-style">
-                        1
-                    </button>
-                    <button id="button-c" class="button-style">
-                        c
-                    </button>
-
+                    <button id="button-plus" class="calc-button calc-button-color-1">+</button>
+                    <button id="button-7" class="calc-button">7</button>
+                    <button id="button-4" class="calc-button">4</button>
+                    <button id="button-1" class="calc-button">1</button>
+                    <button id="button-c" class="calc-button">c</button>
                 </div>
                 <div id="column-2" class="column-style">
-                    <button id="button-subtract" class="button-style button-style-color-1">
-                        -
-                    </button>
-                    <button id="button-8" class="button-style">
-                        8
-                    </button>
-                    <button id="button-5" class="button-style">
-                        5
-                    </button>
-                    <button id="button-2" class="button-style">
-                        2
-                    </button>
-                    <button id="button-0" class="button-style">
-                        0
-                    </button>
-
+                    <button id="button-subtract" class="calc-button calc-button-color-1">-</button>
+                    <button id="button-8" class="calc-button">8</button>
+                    <button id="button-5" class="calc-button">5</button>
+                    <button id="button-2" class="calc-button">2</button>
+                    <button id="button-0" class="calc-button">0</button>
                 </div>
                 <div id="column-3" class="column-style">
-                    <button id="button-multiply" class="button-style button-style-color-1">
-                        &#215
-                    </button>
-                    <button id="button-9" class="button-style">
-                        9
-                    </button>
-                    <button id="button-6" class="button-style">
-                        6
-                    </button>
-                    <button id="button-3" class="button-style">
-                        3
-                    </button>
-                    <button id="button-dot" class="button-style">
-                        .
-                    </button>
-
+                    <button id="button-multiply" class="calc-button calc-button-color-1">&#215</button>
+                    <button id="button-9" class="calc-button">9</button>
+                    <button id="button-6" class="calc-button">6</button>
+                    <button id="button-3" class="calc-button">3</button>
+                    <button id="button-dot" class="calc-button">.</button>
                 </div>
                 <div id="column-4" class="column-style">
-                    <button id="button-divide" class="button-style button-style-color-1">
-                        &#247
-                    </button>
-                    <button id="button-equals">
-                        =
-                    </button>
+                    <button id="button-divide" class="calc-button calc-button-color-1">&#247</button>
+                    <button id="button-equals">=</button>
                 </div>
             </div>
         </div>
@@ -88,5 +56,6 @@
             <input type="checkbox" id="dark-mode"><label>Dark Theme</label>
         </div>
     </div>
+    <script src="main.js"></script>
 </body>
 </html>
