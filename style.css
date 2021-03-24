@@ -107,6 +107,7 @@ input:checked + label {
 
 #button-c {
     background-color: rgb(98, 69, 69);
+    color: white;
 }
 
 #button-c:hover {
@@ -157,37 +158,41 @@ input:checked + label {
 
 @media all and (max-width: 550px){
     #calculator {
-        width: 35vh;
+        width: 36vh;
     }
 }
 
- @media all and (max-height: 1000px){
-    #calculator {
-        width: 42vh;
-    }
+ @media all and (max-height: 1100px){
     #app {
         justify-content: flex-start;
+        height: 100%;
+    }
+    button {
+        font-size: 17pt;
+    }
+    #calculator {
+        width: 40vh;
     }
 }
 
 @media all and (max-height: 800px){
     button {
-        font-size: 14pt;
+        font-size: 12pt;
+    }
+    #calculator {
+        width: 45vh;
     }
 }
 
 @media all and (max-height: 525px){
     button {
-        font-size: 9pt;
+        font-size: 8pt;
     }
     #display {
         width: 75%;
     }
     h1 {
         font-size: 16pt;
-    }
-    label {
-        font: 9pt;
     }
     #calculator{
         border-width: 1px;
@@ -198,13 +203,22 @@ input:checked + label {
     label {
         font-size: 10pt;
     }
+    #calculator {
+        width: 46vh;
+    }
+    #display {
+        width: 82%;
+    }
 }
 
 @media all and (max-height: 275px){
     button {
-        font-size: 8pt;
+        font-size: 5pt;
     }
     h1{
         font-size: 12pt;
+    }
+    #calculator {
+        width: 50vh;
     }
 }
