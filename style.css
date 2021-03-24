@@ -182,6 +182,9 @@ input:checked + label {
     #calculator {
         width: 45vh;
     }
+    h1 {
+        font-size: 18pt;
+    }
 }
 
 @media all and (max-height: 525px){
@@ -192,7 +195,7 @@ input:checked + label {
         width: 75%;
     }
     h1 {
-        font-size: 16pt;
+        font-size: 14pt;
     }
     #calculator{
         border-width: 1px;
@@ -201,7 +204,7 @@ input:checked + label {
         border-width: 1px;
     }
     label {
-        font-size: 10pt;
+        font-size: 8pt;
     }
     #calculator {
         width: 46vh;
@@ -213,10 +216,10 @@ input:checked + label {
 
 @media all and (max-height: 275px){
     button {
-        font-size: 5pt;
+        font-size: 6pt;
     }
     h1{
-        font-size: 12pt;
+        font-size: 10pt;
     }
     #calculator {
         width: 50vh;
