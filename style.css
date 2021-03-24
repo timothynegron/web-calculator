@@ -5,6 +5,8 @@ h1 {
 }
 
 button {
+    border: solid;
+    border-width: 5px;
     font-family: 'Roboto Mono', monospace;
     font-size: 20pt;
     border-radius: 15px;
@@ -160,14 +162,11 @@ input:checked + label {
 }
 
  @media all and (max-height: 1000px){
-     #app {
-         justify-content: flex-start;
-     }
-}
-
-@media all and (max-height: 800px){
     #calculator {
-        width: 45vh;
+        width: 42vh;
+    }
+    #app {
+        justify-content: flex-start;
     }
 }
 
@@ -177,7 +176,7 @@ input:checked + label {
     }
 }
 
-@media all and (max-height: 400px){
+@media all and (max-height: 525px){
     button {
         font-size: 9pt;
     }
@@ -195,5 +194,17 @@ input:checked + label {
     }
     #display {
         border-width: 1px;
+    }
+    label {
+        font-size: 10pt;
+    }
+}
+
+@media all and (max-height: 275px){
+    button {
+        font-size: 8pt;
+    }
+    h1{
+        font-size: 12pt;
     }
 }
