@@ -8,9 +8,9 @@ let operationToggle = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
-// ┌───────────────────────┐
-// │   Set Functionality   │	
-// └───────────────────────┘
+// ┌───────────────────────────┐
+// │   Set App Functionality   │	
+// └───────────────────────────┘
 setEventListeners();
 
 // ┌─────────────────────┐
@@ -81,17 +81,11 @@ function buttonClicked(){
         if(operationToggle){
             firstNumber += valueClicked;
             displayBottom.innerText = firstNumber;
-            if(firstNumber.length > 7){
-                displayBottom.innerText = "ERR";
-            }
         }
         else{
             secondNumber += valueClicked;
             displayBottom.innerText = firstNumber + operation + secondNumber;
             console.log((firstNumber + operation + secondNumber).length);
-            if((firstNumber + operation + secondNumber).length > 7){
-                displayBottom.innerText = "ERR";
-            }
         }
     }
 }
@@ -130,3 +124,8 @@ function clearDisplay() {
 // (2) Err ... undefined
 // (3) Err * Number = Result
 // (4) Two operators back to back
+// (5) Decimal Calculations
+// (6) 50 + 50 + 50 + 50
+// Artifact on screen after pressing numbers and operators
+// Text Wrap?
+// If operator already exist then swap with new one being requested

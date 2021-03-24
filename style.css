@@ -1,3 +1,7 @@
+* {
+    margin: 0;
+}
+
 /* Tag Selectors */
 
 h1 {
@@ -87,22 +91,25 @@ input:checked + label {
     -moz-box-shadow: 0 10px 20px #777;
     box-shadow: 0 10px 20px #777;
     font-family: 'Press Start 2P', cursive;
-    font-size: 38pt;
     color: rgb(200, 179, 111);
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-around;
 }
 
 #display-bottom {
-    margin-bottom: 20px;
+    font-size: 22pt;
+    width: 95%;
+    text-align: right;
+    word-wrap:break-word
 }
 
 #display-top {
-    height: 30%;
-    margin-bottom: 20px;
     font-size: 12pt;
+    width: 95%;
+    text-align: right;
+    word-wrap:break-word;
 }
 
 #bottom-container {
@@ -193,9 +200,15 @@ input:checked + label {
     #calculator {
         width: 40vh;
     }
+    #display-bottom {
+        font-size: 16pt;
+    }
+    #display-top {
+        font-size: 10pt;
+    }
 }
 
-@media all and (max-height: 800px){
+@media all and (max-height: 850px){
     button {
         font-size: 12pt;
     }
@@ -204,6 +217,12 @@ input:checked + label {
     }
     h1 {
         font-size: 18pt;
+    }
+    #display-bottom {
+        font-size: 12pt;
+    }
+    #display-top {
+        font-size: 8pt;
     }
 }
 
@@ -229,8 +248,11 @@ input:checked + label {
     #calculator {
         width: 46vh;
     }
-    #display {
-        width: 82%;
+    #display-bottom {
+        font-size: 7pt;
+    }
+    #display-top {
+        font-size: 5pt;
     }
 }
 
@@ -243,5 +265,11 @@ input:checked + label {
     }
     #calculator {
         width: 50vh;
+    }
+    #display-bottom {
+        font-size: 5pt;
+    }
+    #display-top {
+        font-size: 3pt;
     }
 }
