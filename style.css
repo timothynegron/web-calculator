@@ -101,8 +101,8 @@ input:checked + label {
 }
 
 #button-equals {
-    width: 70px;
-    height: 401px;
+    width: 85%;
+    height: 78%;
     background-color: #DB6400;
 }
 
@@ -152,10 +152,49 @@ input:checked + label {
 }
 
 .button-style {
-    width: 70px;
-    height: 70px;
+    width: 85%;
+    height: 15%;
 }
 
 .button-style-color-1 {
     background-color: rgb(98, 98, 98);
+}
+
+@media all and (max-width: 550px){
+    #calculator {
+        width: 35vh;
+    }
+}
+
+ @media all and (max-height: 1000px){
+     #app {
+         justify-content: flex-start;
+     }
+}
+
+@media all and (max-height: 800px){
+    #calculator {
+        width: 45vh;
+    }
+}
+
+@media all and (max-height: 800px){
+    button {
+        font-size: 14pt;
+    }
+}
+
+@media all and (max-height: 400px){
+    button {
+        font-size: 9pt;
+    }
+    #display {
+        width: 83%;
+    }
+    h1 {
+        font-size: 16pt;
+    }
+    label {
+        font: 9pt;
+    }
 }
