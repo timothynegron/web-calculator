@@ -1,0 +1,161 @@
+/* Tag Selectors */
+
+h1 {
+    font-family: 'Roboto Mono', monospace;
+}
+
+button {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 20pt;
+    border-radius: 15px;
+    border: none;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12)
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    cursor:pointer;
+    background-color: #df945a;
+}
+
+button:active {
+    -webkit-box-shadow: 0 35px 20px #777;
+    -moz-box-shadow: 0 35px 20px #777;
+    box-shadow: 0 35px 20px #777;
+}
+
+label {
+    color: black;
+    font-family: 'Roboto Mono', monospace;
+}
+
+input:checked + label {
+    color: white;
+}
+
+/* ID Selectors */
+
+#app {
+    height: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60vh;
+    width: 40vh;
+    background-color: rgb(200, 200, 200);
+    border-radius: 25px;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12)
+}
+
+#top-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25%;
+    width: 95%;
+    border-radius: 25px;
+}
+
+#display {
+    background-color: #29412d;
+    width: 92%;
+    height: 80%;
+    border-radius: 5px;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12)
+}
+
+#bottom-container {
+    height: 70%;
+    width: 95%;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#button-equals {
+    width: 70px;
+    height: 401px;
+    background-color: #DB6400;
+}
+
+#button-equals:hover {
+    background-color: #df945a;
+}
+
+#button-c {
+    background-color: rgb(98, 69, 69);
+}
+
+#button-c:hover {
+    background-color: rgb(183, 131, 131);
+}
+
+#button-plus:hover {
+    background-color: rgb(177, 175, 175);
+}
+
+#button-subtract:hover {
+    background-color: rgb(177, 175, 175);
+}
+
+#button-multiply:hover {
+    background-color: rgb(177, 175, 175);
+}
+
+#button-divide:hover {
+    background-color: rgb(177, 175, 175);
+}
+
+#night-mode-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* Class Selectors */
+
+.column-style {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-style {
+    width: 70px;
+    height: 70px;
+}
+
+.button-style-color-1 {
+    background-color: rgb(98, 98, 98);
+}
