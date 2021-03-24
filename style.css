@@ -13,7 +13,7 @@ button {
     border-width: 5px;
     font-family: 'Roboto Mono', monospace;
     font-size: 20pt;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
     -webkit-box-shadow: 0 10px 20px #777;
     -moz-box-shadow: 0 10px 20px #777;
@@ -229,15 +229,18 @@ input:checked + label {
 @media all and (max-height: 525px){
     button {
         font-size: 8pt;
+        border-radius: .5px;
     }
     #display {
         border-width: 1px;
+        border-radius: 3px;
     }
     h1 {
         font-size: 12pt;
     }
     #calculator{
         border-width: 1px;
+        border-radius: 3px;
     }
     label {
         font-size: 8pt;

@@ -4,6 +4,7 @@
 let firstNumber = "";
 let secondNumber = "";
 let operation = "";
+let operationWasJustPressed = false;
 let operationToggle = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
@@ -43,6 +44,7 @@ function buttonClicked(){
             operation = valueClicked;
             displayBottom.innerText += valueClicked;
             operationToggle = !operationToggle;
+            operationWasJustPressed = true;
         }
 
         // If operation was pressed previously
