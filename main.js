@@ -6,6 +6,7 @@ let secondNumber = "";
 let operation = "";
 let operationWasJustPressed = false;
 let operationToggle = true;
+let valueClicked = "";
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
@@ -23,6 +24,7 @@ function setEventListeners(){
     for(let i = 0; i < allButtons.length; i++){
         allButtons[i].addEventListener("click", buttonClicked)
     }
+    // Set equals
     document.querySelector("#button-equals").addEventListener("click", buttonClicked);
 }
 
@@ -31,7 +33,8 @@ function setEventListeners(){
 // └───────────────┘
 
 function buttonClicked(){
-    const valueClicked = event.target.innerText;
+    
+    valueClicked = event.target.innerText;
 
     // If Operator Button Pressed
     if(valueClicked === document.querySelector("#button-plus").innerText
@@ -39,56 +42,22 @@ function buttonClicked(){
     || valueClicked === document.querySelector("#button-multiply").innerText
     || valueClicked === document.querySelector("#button-divide").innerText)
     {
-        // If operation not pressed previously
-        if(operationToggle){
-            operation = valueClicked;
-            displayBottom.innerText += valueClicked;
-            operationToggle = !operationToggle;
-            operationWasJustPressed = true;
-        }
-
-        // If operation was pressed previously
-        else{
-            displayTop.innerText = firstNumber + operation + secondNumber;
-            firstNumber = calculate();
-            if(calculate() === NaN){
-                displayBottom.innerText = "ERR";
-            }
-            operation = valueClicked;
-            displayBottom.innerText = firstNumber + operation;
-        }
+        operationPressed();
     }
-
     // If Equals Button Pressed
     else if(valueClicked === document.querySelector("#button-equals").innerText)
     {
-        displayTop.innerText = firstNumber + operation + secondNumber;
-        operationToggle = true;
-        displayBottom.innerText = calculate(); 
-        firstNumber = calculate();
-        secondNumber = "";
-        operation = "";
+        equalsPressed();
     }
-
     // If Clear Button Pressed
     else if(valueClicked === document.querySelector("#button-c").innerText)
     {
-        operationToggle = true;
         clearDisplay();
     }
-
-    // It's a Number
+    // If all cases false then it's a Number
     else
     {
-        if(operationToggle){
-            firstNumber += valueClicked;
-            displayBottom.innerText = firstNumber;
-        }
-        else{
-            secondNumber += valueClicked;
-            displayBottom.innerText = firstNumber + operation + secondNumber;
-            console.log((firstNumber + operation + secondNumber).length);
-        }
+        numberPressed();
     }
 }
 
@@ -117,11 +86,52 @@ function clearDisplay() {
     firstNumber = "";
     secondNumber = "";
     operation = "";
+    operationToggle = true;
+}
+
+function equalsPressed(){
+    displayTop.innerText = firstNumber + operation + secondNumber;
+    operationToggle = true;
+    displayBottom.innerText = calculate(); 
+    firstNumber = calculate();
+    secondNumber = "";
+    operation = "";
+}
+
+function numberPressed(){
+    if(operationToggle){
+        firstNumber += valueClicked;
+        displayBottom.innerText = firstNumber;
+    }
+    else{
+        secondNumber += valueClicked;
+        displayBottom.innerText = firstNumber + operation + secondNumber;
+        console.log((firstNumber + operation + secondNumber).length);
+    }
+}
+
+function operationPressed(){
+    // If operation not pressed previously
+    if(operationToggle){
+        operation = valueClicked;
+        displayBottom.innerText += valueClicked;
+        operationToggle = !operationToggle;
+        operationWasJustPressed = true;
+    }
+
+    // If operation was pressed previously
+    else{
+        displayTop.innerText = firstNumber + operation + secondNumber;
+        firstNumber = calculate();
+        operation = valueClicked;
+        displayBottom.innerText = firstNumber + operation;
+    }
 }
 
 // ┌──────────┐
 // │   Bugs   │	
 // └──────────┘
+
 // (1) NaN23409+23094
 // (4) Two operators back to back
 // (6) 50 + 50 + 50 + 50

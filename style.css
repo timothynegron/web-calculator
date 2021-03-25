@@ -13,7 +13,7 @@ button {
     border-width: 5px;
     font-family: 'Roboto Mono', monospace;
     font-size: 20pt;
-    border-radius: 2px;
+    border-radius: 3px;
     border: none;
     -webkit-box-shadow: 0 10px 20px #777;
     -moz-box-shadow: 0 10px 20px #777;
@@ -274,5 +274,8 @@ input:checked + label {
     }
     #display {
         border-radius: 2px;
+    }
+    #calculator{
+        margin-top: 10px;
     }
 }
