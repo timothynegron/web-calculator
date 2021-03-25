@@ -132,25 +132,28 @@ function numberPressed(){
 }
 
 function operationPressed(){
-    // If operation not pressed previously
-    if(operationNotPressed){
-        operation = valueClicked;
-        displayBottom.innerText += valueClicked;
-        operationNotPressed = !operationNotPressed;
-        dotNotPressed = true;
-    }
-
-    // If operation was pressed previously
-    else{
-        if(secondNumber !== ""){
-            displayTop.innerText = firstNumber + operation + secondNumber;
-            firstNumber = calculate();
+    
+    if(firstNumber !== ""){
+        // If operation not pressed previously
+        if(operationNotPressed){
             operation = valueClicked;
-            displayBottom.innerText = firstNumber + operation;
-            secondNumber = "";
-        }else{
-            operation = valueClicked;
-            displayBottom.innerText = firstNumber + operation;
+            displayBottom.innerText += valueClicked;
+            operationNotPressed = !operationNotPressed;
+            dotNotPressed = true;
+        }
+    
+        // If operation was pressed previously
+        else{
+            if(secondNumber !== ""){
+                displayTop.innerText = firstNumber + operation + secondNumber;
+                firstNumber = calculate();
+                operation = valueClicked;
+                displayBottom.innerText = firstNumber + operation;
+                secondNumber = "";
+            }else{
+                operation = valueClicked;
+                displayBottom.innerText = firstNumber + operation;
+            }
         }
     }
 }
