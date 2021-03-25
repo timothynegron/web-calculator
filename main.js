@@ -46,7 +46,9 @@ function buttonClicked(){
     // If Equals Button Pressed
     else if(valueClicked === document.querySelector("#button-equals").innerText)
     {
-        equalsPressed();
+        if(firstNumber !== "" && operation !== "" && secondNumber !== ""){
+            equalsPressed();
+        }
     }
     // If Clear Button Pressed
     else if(valueClicked === document.querySelector("#button-c").innerText)
@@ -158,4 +160,3 @@ function operationPressed(){
 
 // (1) NaN23409+23094
 // (2) 50 + 50 + 50 + 50
-// (4) if one number pressed and equals pressed
