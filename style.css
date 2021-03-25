@@ -191,7 +191,6 @@ input:checked + label {
 
 @media all and (max-height: 1200px){
     #calculator {
-        width: 38vh;
         border-radius: 4px;
     }
 }
@@ -205,7 +204,7 @@ input:checked + label {
         font-size: 17pt;
     }
     #calculator {
-        width: 38vh;
+        width: 40vh;
         border-radius: 4px;
     }
     #display{
