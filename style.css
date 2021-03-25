@@ -13,7 +13,7 @@ button {
     border-width: 5px;
     font-family: 'Roboto Mono', monospace;
     font-size: 20pt;
-    border-radius: 3px;
+    border-radius: 2px;
     border: none;
     -webkit-box-shadow: 0 10px 20px #777;
     -moz-box-shadow: 0 10px 20px #777;
@@ -64,7 +64,7 @@ input:checked + label {
     height: 60vh;
     width: 40vh;
     background-color: rgb(200, 200, 200);
-    border-radius: 10px;
+    border-radius: 5px;
     -webkit-box-shadow: 0 10px 20px #777;
     -moz-box-shadow: 0 10px 20px #777;
     box-shadow: 0 10px 20px #777;
@@ -189,6 +189,13 @@ input:checked + label {
     }
 }
 
+@media all and (max-height: 1200px){
+    #calculator {
+        width: 40vh;
+        border-radius: 4px;
+    }
+}
+
 @media all and (max-height: 1100px){
     #app {
         justify-content: flex-start;
@@ -198,7 +205,11 @@ input:checked + label {
         font-size: 17pt;
     }
     #calculator {
-        width: 40vh;
+        width: 42vh;
+        border-radius: 4px;
+    }
+    #display{
+        border-radius: 4px;
     }
     #display-bottom {
         font-size: 16pt;
@@ -213,7 +224,11 @@ input:checked + label {
         font-size: 12pt;
     }
     #calculator {
-        width: 45vh;
+        width: 50vh;
+        border-radius: 3px;
+    }
+    #display{
+        border-radius: 3px;
     }
     h1 {
         font-size: 18pt;
@@ -256,5 +271,8 @@ input:checked + label {
 @media all and (max-height: 330px){
     h1{
         font-size: 10pt;
+    }
+    #display {
+        border-radius: 2px;
     }
 }
