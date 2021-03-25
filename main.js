@@ -93,12 +93,12 @@ function clearDisplay() {
 
 function equalsPressed(){
     displayTop.innerText = firstNumber + operation + secondNumber;
-    operationNotPressed = true;
     displayBottom.innerText = calculate(); 
     firstNumber = calculate();
     secondNumber = "";
     operation = "";
-    dotNotPressed = true;
+    operationNotPressed = true;
+    dotNotPressed = false;
 }
 
 function numberPressed(){
@@ -147,6 +147,7 @@ function operationPressed(){
             firstNumber = calculate();
             operation = valueClicked;
             displayBottom.innerText = firstNumber + operation;
+            secondNumber = "";
         }else{
             operation = valueClicked;
             displayBottom.innerText = firstNumber + operation;
@@ -159,4 +160,4 @@ function operationPressed(){
 // └──────────┘
 
 // (1) NaN23409+23094
-// (2) 50 + 50 + 50 + 50
+// (2) Could put operator first
