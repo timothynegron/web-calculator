@@ -5,11 +5,18 @@ let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 let buttonPressedValue = "";
-let dotNotPressed = true;
+let pointNotPressed = true;
 let resultDoesNotExist = true;
 let operatorNotPressed = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
+const buttonPlus = document.querySelector("#button-plus").innerText;
+const buttonSubtract = document.querySelector("#button-subtract").innerText;
+const buttonMultiply = document.querySelector("#button-multiply").innerText;
+const buttonDivide = document.querySelector("#button-divide").innerText;
+const buttonEquals = document.querySelector("#button-equals").innerText
+const buttonClear = document.querySelector("#button-c").innerText;
+const buttonPoint = document.querySelector("#button-point").innerText;
 
 // ┌───────────────────────────┐
 // │   Set App Functionality   │	
@@ -20,11 +27,16 @@ setEventListeners();
 // │   Event Listeners   │	
 // └─────────────────────┘
 function setEventListeners(){
-    // Set all Buttons except equals
+
+    // Get all Buttons except equals
     const allButtons = document.querySelectorAll(".calc-button");
-    for(let i = 0; i < allButtons.length; i++){
+
+    // Set all Buttons except equals
+    for(let i = 0; i < allButtons.length; i++)
+    {
         allButtons[i].addEventListener("click", buttonClicked)
     }
+
     // Set equals
     document.querySelector("#button-equals").addEventListener("click", buttonClicked);
 }
@@ -37,45 +49,34 @@ function buttonClicked(){
     buttonPressedValue = event.target.innerText;
 
     // If Operator Button Pressed
-    if(buttonPressedValue === document.querySelector("#button-plus").innerText
-    || buttonPressedValue === document.querySelector("#button-subtract").innerText
-    || buttonPressedValue === document.querySelector("#button-multiply").innerText
-    || buttonPressedValue === document.querySelector("#button-divide").innerText)
-    {
+    if( buttonPressedValue === buttonPlus
+        || buttonPressedValue === buttonSubtract
+        || buttonPressedValue === buttonMultiply
+        || buttonPressedValue === buttonDivide)
+    {   
         operatorPressed();
     }
+
     // If Equals Button Pressed
-    else if(buttonPressedValue === document.querySelector("#button-equals").innerText){
-        if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
+    else if(buttonPressedValue === buttonEquals)
+    {
+        // If firstNumber, operator, and secondNumber have values
+        if(firstNumber !== "" && operator !== "" && secondNumber !== "")
+        {
             equalsPressed();
         }
     }
+
     // If Clear Button Pressed
-    else if(buttonPressedValue === document.querySelector("#button-c").innerText){
+    else if(buttonPressedValue === buttonClear)
+    {
         clearDisplay();
     }
-    // If all cases false then it's a Number
-    else{
+
+    // If all cases are false then the value is a number
+    else
+    {
         numberPressed();
-    }
-}
-
-function equalsPressed(){
-
-    displayTop.innerText = firstNumber + operator + secondNumber;
-
-    if(isNaN(calculate())){
-       errorMessage();
-    }
-
-    else{
-        displayBottom.innerText = calculate(); 
-        firstNumber = calculate();
-        secondNumber = "";
-        operator = "";
-        operatorNotPressed = true;
-        dotNotPressed = false;
-        resultDoesNotExist = false;
     }
 }
 
@@ -83,62 +84,100 @@ function numberPressed(){
 
     if(operatorNotPressed){
 
-        if(resultDoesNotExist){
+        if(resultDoesNotExist)
+        {
 
-            if(dotNotPressed){
+            if(pointNotPressed)
+            {
                 firstNumber += buttonPressedValue;
                 displayBottom.innerText = firstNumber;
             }
 
-            else if(buttonPressedValue !== document.querySelector("#button-dot").innerText){
+            else if(buttonPressedValue !== buttonPoint){
                 firstNumber += buttonPressedValue;
                 displayBottom.innerText = firstNumber;
             }
         }
     }
 
-    else{
+    else
+    {
 
-        if(dotNotPressed){
+        if(pointNotPressed){
             secondNumber += buttonPressedValue;
-            displayBottom.innerText = firstNumber + operator + secondNumber;
+            updateBottomDisplay();
+            
         }
 
-        else if(buttonPressedValue !== document.querySelector("#button-dot").innerText){
+        else if(buttonPressedValue !== buttonPoint){
             secondNumber += buttonPressedValue;
-            displayBottom.innerText = firstNumber + operator + secondNumber;
+            updateBottomDisplay();
         }
     }
 
-    if(buttonPressedValue === document.querySelector("#button-dot").innerText){
-        dotNotPressed = false;
+    if(buttonPressedValue === buttonPoint){
+        pointNotPressed = false;
     }
 }
 
 function operatorPressed(){
 
-    if(firstNumber !== ""){
-        // If operator not pressed previously
-        if(operatorNotPressed){
+    // If there is not first number
+    if(firstNumber !== "")
+    {
+        // If an operator not pressed previously
+        if(operatorNotPressed)
+        {
             operator = buttonPressedValue;
             displayBottom.innerText += buttonPressedValue;
             operatorNotPressed = !operatorNotPressed;
-            dotNotPressed = true;
+            pointNotPressed = true;
         }
     
-        // If operator was pressed previously
-        else{
-            if(secondNumber !== ""){
-                displayTop.innerText = firstNumber + operator + secondNumber;
-                firstNumber = calculate();
+        // If there was an operator pressed previously
+        else
+        {
+            // If there is not a second number change the operator
+            if(secondNumber === "")
+            {
                 operator = buttonPressedValue;
-                displayBottom.innerText = firstNumber + operator;
-                secondNumber = "";
-            }else{
-                operator = buttonPressedValue;
-                displayBottom.innerText = firstNumber + operator;
+                updateBottomDisplayOperator();
+            }
+
+            // If there is a second number
+            if(secondNumber !== "")
+            {
+                operatorPressedAgain();
+                updateBottomDisplayOperator();
             }
         }
+    }
+}
+
+function equalsPressed(){
+
+    // Update the top display
+    updateTopDisplay();
+
+    // Calculate the expression
+    const result = calculate();
+
+    // If result the result is not a number
+    if(isNaN(result))
+    {
+        errorMessage();
+    }
+
+    // If the result is a number
+    else
+    {
+        displayBottom.innerText = result; 
+        firstNumber = result;
+        secondNumber = "";
+        operator = "";
+        operatorNotPressed = true;
+        pointNotPressed = false;
+        resultDoesNotExist = false;
     }
 }
 
@@ -147,41 +186,71 @@ function operatorPressed(){
 // └──────────────────────┘
 
 function clearDisplay() {
+    
     displayBottom.innerHTML = "";
     displayTop.innerHTML = "";
-    firstNumber = "";
-    secondNumber = "";
-    operator = "";
-    operatorNotPressed = true;
-    dotNotPressed = true;
-    resultDoesNotExist = true;
+    resetAllVariables();
 }
 
 function errorMessage() {
-    displayBottom.innerText = "Error";
+
+    displayBottom.innerText = "Not a Number";
+    resetAllVariables();
+}
+
+function resetAllVariables(){
+
     firstNumber = "";
     secondNumber = "";
     operator = "";
     operatorNotPressed = true;
-    dotNotPressed = true;
+    pointNotPressed = true;
     resultDoesNotExist = true;
 }
 
 function calculate(){
 
-    if(operator === document.querySelector("#button-plus").innerText){
+    if(operator === buttonPlus){
         return Number(firstNumber) + Number(secondNumber);
     }
 
-    if(operator === document.querySelector("#button-subtract").innerText){
+    if(operator === buttonSubtract){
         return Number(firstNumber) - Number(secondNumber);
     }
 
-    if(operator === document.querySelector("#button-multiply").innerText){
+    if(operator === buttonMultiply){
         return Number(firstNumber) * Number(secondNumber);
     }
 
-    if(operator === document.querySelector("#button-divide").innerText){
+    if(operator === buttonDivide){
         return Number(firstNumber) / Number(secondNumber);
     }
 }
+
+function updateTopDisplay(){
+    displayTop.innerText = firstNumber + operator + secondNumber;
+}
+
+function updateBottomDisplay(){
+    displayBottom.innerText = firstNumber + operator + secondNumber;
+}
+
+function updateBottomDisplayOperator(){
+    displayBottom.innerText = firstNumber + operator;
+}
+
+function operatorPressedAgain(){
+    updateTopDisplay();
+    // not checking for NaN
+    firstNumber = calculate();
+    operator = buttonPressedValue;
+    secondNumber = "";
+}
+
+// displayBottom.innerText = result; 
+// firstNumber = result;
+// secondNumber = "";
+// operator = ""; <---
+// operatorNotPressed = true; <---
+// pointNotPressed = false; <---
+// resultDoesNotExist = false; <---
