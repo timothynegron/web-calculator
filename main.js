@@ -4,9 +4,9 @@
 let firstNumber = "";
 let secondNumber = "";
 let operation = "";
-let operationWasJustPressed = false;
-let operationToggle = true;
+let operationNotPressed = true;
 let valueClicked = "";
+let dotNotPressed = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
@@ -85,37 +85,57 @@ function clearDisplay() {
     firstNumber = "";
     secondNumber = "";
     operation = "";
-    operationToggle = true;
+    operationNotPressed = true;
+    dotNotPressed = true;
 }
 
 function equalsPressed(){
     displayTop.innerText = firstNumber + operation + secondNumber;
-    operationToggle = true;
+    operationNotPressed = true;
     displayBottom.innerText = calculate(); 
     firstNumber = calculate();
     secondNumber = "";
     operation = "";
+    dotNotPressed = true;
 }
 
 function numberPressed(){
-    if(operationToggle){
-        firstNumber += valueClicked;
-        displayBottom.innerText = firstNumber;
+
+    if(operationNotPressed){
+        if(dotNotPressed){
+            firstNumber += valueClicked;
+            displayBottom.innerText = firstNumber;
+        }
+
+        else if(valueClicked !== document.querySelector("#button-dot").innerText){
+            firstNumber += valueClicked;
+            displayBottom.innerText = firstNumber;
+        }
     }
     else{
-        secondNumber += valueClicked;
-        displayBottom.innerText = firstNumber + operation + secondNumber;
-        console.log((firstNumber + operation + secondNumber).length);
+        if(dotNotPressed){
+            secondNumber += valueClicked;
+            displayBottom.innerText = firstNumber + operation + secondNumber;
+        }
+
+        else if(valueClicked !== document.querySelector("#button-dot").innerText){
+            secondNumber += valueClicked;
+            displayBottom.innerText = firstNumber + operation + secondNumber;
+        }
+    }
+
+    if(valueClicked === document.querySelector("#button-dot").innerText){
+        dotNotPressed = false;
     }
 }
 
 function operationPressed(){
     // If operation not pressed previously
-    if(operationToggle){
+    if(operationNotPressed){
         operation = valueClicked;
         displayBottom.innerText += valueClicked;
-        operationToggle = !operationToggle;
-        operationWasJustPressed = true;
+        operationNotPressed = !operationNotPressed;
+        dotNotPressed = true;
     }
 
     // If operation was pressed previously
@@ -138,4 +158,4 @@ function operationPressed(){
 
 // (1) NaN23409+23094
 // (2) 50 + 50 + 50 + 50
-// (3) can keep pressing .
+// (4) if one number pressed and equals pressed
