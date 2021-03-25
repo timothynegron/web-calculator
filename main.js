@@ -3,11 +3,11 @@
 // └──────────────────────┘
 let firstNumber = "";
 let secondNumber = "";
-let operation = "";
-let valueClicked = "";
+let operator = "";
+let buttonPressedValue = "";
 let dotNotPressed = true;
 let resultDoesNotExist = true;
-let operationNotPressed = true;
+let operatorNotPressed = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
@@ -29,29 +29,29 @@ function setEventListeners(){
     document.querySelector("#button-equals").addEventListener("click", buttonClicked);
 }
 
-// ┌───────────────┐
-// │   Functions   │	
-// └───────────────┘
+// ┌──────────────────────┐
+// │   Button Functions   │	
+// └──────────────────────┘
 function buttonClicked(){
     
-    valueClicked = event.target.innerText;
+    buttonPressedValue = event.target.innerText;
 
     // If Operator Button Pressed
-    if(valueClicked === document.querySelector("#button-plus").innerText
-    || valueClicked === document.querySelector("#button-subtract").innerText
-    || valueClicked === document.querySelector("#button-multiply").innerText
-    || valueClicked === document.querySelector("#button-divide").innerText)
+    if(buttonPressedValue === document.querySelector("#button-plus").innerText
+    || buttonPressedValue === document.querySelector("#button-subtract").innerText
+    || buttonPressedValue === document.querySelector("#button-multiply").innerText
+    || buttonPressedValue === document.querySelector("#button-divide").innerText)
     {
-        operationPressed();
+        operatorPressed();
     }
     // If Equals Button Pressed
-    else if(valueClicked === document.querySelector("#button-equals").innerText){
-        if(firstNumber !== "" && operation !== "" && secondNumber !== ""){
+    else if(buttonPressedValue === document.querySelector("#button-equals").innerText){
+        if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
             equalsPressed();
         }
     }
     // If Clear Button Pressed
-    else if(valueClicked === document.querySelector("#button-c").innerText){
+    else if(buttonPressedValue === document.querySelector("#button-c").innerText){
         clearDisplay();
     }
     // If all cases false then it's a Number
@@ -60,32 +60,99 @@ function buttonClicked(){
     }
 }
 
-function calculate(){
+function equalsPressed(){
 
-    if(operation === document.querySelector("#button-plus").innerText){
-        return Number(firstNumber) + Number(secondNumber);
+    displayTop.innerText = firstNumber + operator + secondNumber;
+
+    if(isNaN(calculate())){
+       errorMessage();
     }
 
-    if(operation === document.querySelector("#button-subtract").innerText){
-        return Number(firstNumber) - Number(secondNumber);
-    }
-
-    if(operation === document.querySelector("#button-multiply").innerText){
-        return Number(firstNumber) * Number(secondNumber);
-    }
-
-    if(operation === document.querySelector("#button-divide").innerText){
-        return Number(firstNumber) / Number(secondNumber);
+    else{
+        displayBottom.innerText = calculate(); 
+        firstNumber = calculate();
+        secondNumber = "";
+        operator = "";
+        operatorNotPressed = true;
+        dotNotPressed = false;
+        resultDoesNotExist = false;
     }
 }
+
+function numberPressed(){
+
+    if(operatorNotPressed){
+
+        if(resultDoesNotExist){
+
+            if(dotNotPressed){
+                firstNumber += buttonPressedValue;
+                displayBottom.innerText = firstNumber;
+            }
+
+            else if(buttonPressedValue !== document.querySelector("#button-dot").innerText){
+                firstNumber += buttonPressedValue;
+                displayBottom.innerText = firstNumber;
+            }
+        }
+    }
+
+    else{
+
+        if(dotNotPressed){
+            secondNumber += buttonPressedValue;
+            displayBottom.innerText = firstNumber + operator + secondNumber;
+        }
+
+        else if(buttonPressedValue !== document.querySelector("#button-dot").innerText){
+            secondNumber += buttonPressedValue;
+            displayBottom.innerText = firstNumber + operator + secondNumber;
+        }
+    }
+
+    if(buttonPressedValue === document.querySelector("#button-dot").innerText){
+        dotNotPressed = false;
+    }
+}
+
+function operatorPressed(){
+
+    if(firstNumber !== ""){
+        // If operator not pressed previously
+        if(operatorNotPressed){
+            operator = buttonPressedValue;
+            displayBottom.innerText += buttonPressedValue;
+            operatorNotPressed = !operatorNotPressed;
+            dotNotPressed = true;
+        }
+    
+        // If operator was pressed previously
+        else{
+            if(secondNumber !== ""){
+                displayTop.innerText = firstNumber + operator + secondNumber;
+                firstNumber = calculate();
+                operator = buttonPressedValue;
+                displayBottom.innerText = firstNumber + operator;
+                secondNumber = "";
+            }else{
+                operator = buttonPressedValue;
+                displayBottom.innerText = firstNumber + operator;
+            }
+        }
+    }
+}
+
+// ┌──────────────────────┐
+// │   Helper Functions   │	
+// └──────────────────────┘
 
 function clearDisplay() {
     displayBottom.innerHTML = "";
     displayTop.innerHTML = "";
     firstNumber = "";
     secondNumber = "";
-    operation = "";
-    operationNotPressed = true;
+    operator = "";
+    operatorNotPressed = true;
     dotNotPressed = true;
     resultDoesNotExist = true;
 }
@@ -94,84 +161,27 @@ function errorMessage() {
     displayBottom.innerText = "Error";
     firstNumber = "";
     secondNumber = "";
-    operation = "";
-    operationNotPressed = true;
+    operator = "";
+    operatorNotPressed = true;
     dotNotPressed = true;
     resultDoesNotExist = true;
 }
 
-function equalsPressed(){
-    displayTop.innerText = firstNumber + operation + secondNumber;
-    if(firstNumber === document.querySelector("#button-dot").innerText 
-    || secondNumber === document.querySelector("#button-dot").innerText){
-       errorMessage();
-    }
-    else{
-        displayBottom.innerText = calculate(); 
-        firstNumber = calculate();
-        secondNumber = "";
-        operation = "";
-        operationNotPressed = true;
-        dotNotPressed = false;
-        resultDoesNotExist = false;
-    }
-}
+function calculate(){
 
-function numberPressed(){
-
-    if(operationNotPressed){
-        if(resultDoesNotExist){
-            if(dotNotPressed){
-                firstNumber += valueClicked;
-                displayBottom.innerText = firstNumber;
-            }
-            else if(valueClicked !== document.querySelector("#button-dot").innerText){
-                firstNumber += valueClicked;
-                displayBottom.innerText = firstNumber;
-            }
-        }
+    if(operator === document.querySelector("#button-plus").innerText){
+        return Number(firstNumber) + Number(secondNumber);
     }
 
-    else{
-        if(dotNotPressed){
-            secondNumber += valueClicked;
-            displayBottom.innerText = firstNumber + operation + secondNumber;
-        }
-
-        else if(valueClicked !== document.querySelector("#button-dot").innerText){
-            secondNumber += valueClicked;
-            displayBottom.innerText = firstNumber + operation + secondNumber;
-        }
+    if(operator === document.querySelector("#button-subtract").innerText){
+        return Number(firstNumber) - Number(secondNumber);
     }
 
-    if(valueClicked === document.querySelector("#button-dot").innerText){
-        dotNotPressed = false;
+    if(operator === document.querySelector("#button-multiply").innerText){
+        return Number(firstNumber) * Number(secondNumber);
     }
-}
 
-function operationPressed(){
-
-    if(firstNumber !== ""){
-        // If operation not pressed previously
-        if(operationNotPressed){
-            operation = valueClicked;
-            displayBottom.innerText += valueClicked;
-            operationNotPressed = !operationNotPressed;
-            dotNotPressed = true;
-        }
-    
-        // If operation was pressed previously
-        else{
-            if(secondNumber !== ""){
-                displayTop.innerText = firstNumber + operation + secondNumber;
-                firstNumber = calculate();
-                operation = valueClicked;
-                displayBottom.innerText = firstNumber + operation;
-                secondNumber = "";
-            }else{
-                operation = valueClicked;
-                displayBottom.innerText = firstNumber + operation;
-            }
-        }
+    if(operator === document.querySelector("#button-divide").innerText){
+        return Number(firstNumber) / Number(secondNumber);
     }
 }
