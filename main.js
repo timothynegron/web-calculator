@@ -31,7 +31,6 @@ function setEventListeners(){
 // ┌───────────────┐
 // │   Functions   │	
 // └───────────────┘
-
 function buttonClicked(){
     
     valueClicked = event.target.innerText;

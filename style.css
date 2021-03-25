@@ -224,7 +224,7 @@ input:checked + label {
         font-size: 12pt;
     }
     #calculator {
-        width: 48vh;
+        width: 45vh;
         border-radius: 3px;
     }
     #display{
