@@ -102,7 +102,8 @@ function errorMessage() {
 
 function equalsPressed(){
     displayTop.innerText = firstNumber + operation + secondNumber;
-    if(isNaN(calculate())){
+    if(firstNumber === document.querySelector("#button-dot").innerText 
+    || secondNumber === document.querySelector("#button-dot").innerText){
        errorMessage();
     }
     else{
