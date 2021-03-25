@@ -120,10 +120,15 @@ function operationPressed(){
 
     // If operation was pressed previously
     else{
-        displayTop.innerText = firstNumber + operation + secondNumber;
-        firstNumber = calculate();
-        operation = valueClicked;
-        displayBottom.innerText = firstNumber + operation;
+        if(secondNumber !== ""){
+            displayTop.innerText = firstNumber + operation + secondNumber;
+            firstNumber = calculate();
+            operation = valueClicked;
+            displayBottom.innerText = firstNumber + operation;
+        }else{
+            operation = valueClicked;
+            displayBottom.innerText = firstNumber + operation;
+        }
     }
 }
 
@@ -132,6 +137,5 @@ function operationPressed(){
 // └──────────┘
 
 // (1) NaN23409+23094
-// (4) Two operators back to back
-// (6) 50 + 50 + 50 + 50
-// If operator already exist then swap with new one being requested
+// (2) 50 + 50 + 50 + 50
+// (3) can keep pressing .
