@@ -62,7 +62,7 @@ function buttonClickedReadValue(){
             break;
 
         case buttonAllClear:
-            clearClicked();
+            allClearClicked();
             break;
 
         default:
@@ -79,52 +79,16 @@ function operatorClicked(){
 
     // Check if equals button was Clicked
     if(buttonClickedValue === buttonEquals){
-        equalsClicked();
+        operatorEqualsClicked();
     }
 
     // If equals button not clicked, do something only if there is NOT a first number
     else if(firstNumber !== ""){
-
-        // If [ + || - || * || / ] was NOT Clicked previously
-        if(operatorNotClickedPreviously){
-            operatorClickedNewFirstNumber();
-        }
-    
-        // [ + || - || * || / ] was Clicked previously
-        else{
-            operatorClickedAgain();
-        }
+        operatorEqualsNotClicked();
     }
 }
 
-function operatorClickedNewFirstNumber(){
-
-    operatorNotClickedPreviously = false;
-
-    buildStringOperator();
-    resetPointNotClicked();
-}
-
-function operatorClickedAgain(){
-
-    // If there is a second number calculate and set the new operator
-    if(secondNumber !== ""){
-                
-        if(isValidResult()){
-            setFirstNumberWithResult();
-            resetSecondNumber();
-            buildStringOperator();
-        }
-    }
-
-    // If there is not a second number update the operator
-    if(secondNumber === ""){
-        buildStringOperator();
-    }
-    
-}
-
-function equalsClicked(){
+function operatorEqualsClicked(){
 
     // Only calculate only if there is an existing value for each variable
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
@@ -135,42 +99,80 @@ function equalsClicked(){
     }
 }
 
+function operatorEqualsNotClicked(){
+
+    // If operators [ + || - || * || / ] was NOT Clicked previously
+    if(operatorNotClickedPreviously){
+        operatorEqualsNotClickedSetOperator();
+    }
+
+    // Operators [ + || - || * || / ] was Clicked previously
+    else{
+        operatorEqualsNotClickedAgain();
+    }
+}
+
+function operatorEqualsNotClickedSetOperator(){
+
+    operatorNotClickedPreviously = false;
+
+    buildStringOperator();
+    updateBottomDisplayWithCurrentExpression();
+    resetPointNotClicked();
+}
+
+function operatorEqualsNotClickedAgain(){
+
+    // If there is not a second number update the operator
+    if(secondNumber === ""){
+        buildStringOperator();
+        updateBottomDisplayWithCurrentExpression();
+    }
+
+    // If there is a second number and valid result
+    if(secondNumber !== "" && isValidResult()){
+        setFirstNumberWithResult();
+        buildStringOperator();
+        resetSecondNumber();
+        updateBottomDisplayWithCurrentExpression();
+    }
+}
 
 function pointClicked(){
 
-    // If operator and point was NOT previously Clicked
+    // If operator AND point was NOT previously Clicked
     if(operatorNotClickedPreviously && pointNotClicked){
         buildStringFirstNumber();
+        updateBottomDisplayWithCurrentExpression();
         pointNotClicked = false;
     }
 
-    // If point was NOT Clicked
+    // If point was NOT Clicked previously
     else if(pointNotClicked){
         buildStringSecondNumber();
+        updateBottomDisplayWithCurrentExpression();
         pointNotClicked = false;
     }
 }
 
-function clearClicked(){
+function allClearClicked(){
 
-    updateBottomAndTopDisplayClearAll();
+    updateTopAndBottomDisplayAllClear();
     resetAllClearClicked();
 }
 
 function numberClicked(){
 
-    // If a operator was NOT Clicked, do something
+    // If a operator was NOT Clicked previously
     if(operatorNotClickedPreviously){
-
-        // If no result from a previous equation exist, build the first number
-        if(resultDoesNotExist){
-            buildStringFirstNumber();
-        }
+        buildStringFirstNumber();
+        updateBottomDisplayWithCurrentExpression();
     }
 
-    // A operator was Clicked previously, build the second number
+    // Operator Clicked previously AND a first number exist
     else{
             buildStringSecondNumber();
+            updateBottomDisplayWithCurrentExpression();
     }
 }
 
@@ -217,18 +219,19 @@ function calculate(){
 // └──────────────────────┘
 
 function buildStringFirstNumber(){
-    firstNumber += buttonClickedValue;
-    updateBottomDisplayWithCurrentExpression();
+
+    // If no result from a previous equation exist, build the first number
+    if(resultDoesNotExist){
+        firstNumber += buttonClickedValue;
+    }
 }
 
 function buildStringSecondNumber(){
     secondNumber += buttonClickedValue;
-    updateBottomDisplayWithCurrentExpression();
 }
 
 function buildStringOperator(){
     operator = buttonClickedValue;
-    updateBottomDisplayWithCurrentExpression();
 }
 
 function updateBottomDisplayWithCurrentExpression(){
@@ -239,15 +242,15 @@ function updateBottomDisplayWithResult(){
     displayBottom.innerText = result; 
 }
 
-function updateTopDisplayWithPreviousExpression(){
-    displayTop.innerText = firstNumber + operator + secondNumber;
-}
-
 function updateBottomDisplayWithErrorMessage(){
     displayBottom.innerText = "Not a Number";
 }
 
-function updateBottomAndTopDisplayClearAll() {
+function updateTopDisplayWithPreviousExpression(){
+    displayTop.innerText = firstNumber + operator + secondNumber;
+}
+
+function updateTopAndBottomDisplayAllClear() {
     displayBottom.innerHTML = "";
     displayTop.innerHTML = "";
 }
