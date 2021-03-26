@@ -13,6 +13,7 @@ let operatorNotClickedPreviously = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
+const buttonSquared = "x²"
 const buttonPercent = "%";
 const buttonPoint = ".";
 const buttonEquals = "=";
@@ -64,6 +65,10 @@ function buttonClickedReadValue(){
 
         case buttonPercent:
             percentClicked();
+            break;
+
+        case buttonSquared:
+            squaredClicked();
             break;
 
         case buttonAllClear:
@@ -186,6 +191,21 @@ function percentClicked(){
             resetPointNotClicked();
         }
         updateBottomDisplayWithCurrentExpression();
+    }
+}
+
+// TODO: Refactor
+function squaredClicked(){
+    if(operatorNotClickedPreviously){
+        firstNumber *= firstNumber
+        updateBottomDisplayWithCurrentExpression();
+    }
+
+    else{
+        if(secondNumber !== ""){
+            secondNumber *= secondNumber;
+            updateBottomDisplayWithCurrentExpression();
+        }
     }
 }
 
