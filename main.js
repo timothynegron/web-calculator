@@ -94,7 +94,7 @@ function operatorEqualsClicked(){
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
         if(isValidResult()){
             updateBottomDisplayWithResult();
-            resetEqualsClicked();
+            resetVariablesEqualsClicked();
         }
     }
 }
@@ -140,25 +140,31 @@ function operatorEqualsNotClickedAgain(){
 
 function pointClicked(){
 
-    // If operator AND point was NOT previously Clicked
-    if(operatorNotClickedPreviously && pointNotClicked){
+    // If point was NOT Clicked previously AND operator was not
+    if(pointNotClicked && operatorNotClickedPreviously === true){
+
+        pointNotClicked = false;
+
+        // Add the point to First Number
         buildStringFirstNumber();
         updateBottomDisplayWithCurrentExpression();
-        pointNotClicked = false;
     }
 
-    // If point was NOT Clicked previously
-    else if(pointNotClicked){
+    // If point was NOT Clicked previously AND operator was
+    if(pointNotClicked && operatorNotClickedPreviously === false){
+
+        pointNotClicked = false;
+
+        // Add the point to Second Number
         buildStringSecondNumber();
         updateBottomDisplayWithCurrentExpression();
-        pointNotClicked = false;
     }
 }
 
 function allClearClicked(){
 
     updateTopAndBottomDisplayAllClear();
-    resetAllClearClicked();
+    resetVariablesAllClearClicked();
 }
 
 function numberClicked(){
@@ -171,8 +177,8 @@ function numberClicked(){
 
     // Operator Clicked previously AND a first number exist
     else{
-            buildStringSecondNumber();
-            updateBottomDisplayWithCurrentExpression();
+        buildStringSecondNumber();
+        updateBottomDisplayWithCurrentExpression();
     }
 }
 
@@ -188,7 +194,7 @@ function isValidResult(){
     
     if(isNaN(result)){
         updateBottomDisplayWithErrorMessage();
-        resetAllClearClicked();
+        resetVariablesAllClearClicked();
         return false;
     }
 
@@ -255,7 +261,7 @@ function updateTopAndBottomDisplayAllClear() {
     displayTop.innerHTML = "";
 }
 
-function resetAllClearClicked(){
+function resetVariablesAllClearClicked(){
     resetFirstNumber();
     resetSecondNumber();
     resetOperator();
@@ -264,7 +270,7 @@ function resetAllClearClicked(){
     resetResultDoesNotExist();
 }
 
-function resetEqualsClicked(){
+function resetVariablesEqualsClicked(){
     setFirstNumberWithResult();
     resetSecondNumber();
     resetOperator();
