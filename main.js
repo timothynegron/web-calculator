@@ -171,6 +171,7 @@ function percentClicked(){
 
     if(operatorNotClickedPreviously){
         firstNumber *= 0.1;
+        pointNotClicked = false;
         if(firstNumber % 2 === 0){
             resetPointNotClicked();
         }
@@ -179,6 +180,7 @@ function percentClicked(){
     
     else{
         secondNumber *= 0.1;
+        pointNotClicked = false;
         if(secondNumber % 2 === 0){
             resetPointNotClicked();
         }
