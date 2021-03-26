@@ -41,9 +41,9 @@ function setEventListeners(){
     document.querySelector("#button-equals").addEventListener("click", buttonClickedReadValue);
 }
 
-// ┌──────────────────────────────────┐
-// │   Read Button Clicked Function   │	
-// └──────────────────────────────────┘
+// ┌───────────────────────────────────────────────┐
+// │   Read The Button That Was Clicked Function   │	
+// └───────────────────────────────────────────────┘
 function buttonClickedReadValue(){
     
     buttonClickedValue = event.target.innerText;
@@ -169,7 +169,7 @@ function operatorClickedAgain(){
     if(isValidResult()){
         setFirstNumberWithResult();
         resetSecondNumber();
-        buildOperator();
+        buildStringOperator();
     }
 }
 
