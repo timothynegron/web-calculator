@@ -13,6 +13,7 @@ let operatorNotClickedPreviously = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
+const buttonPercent = "%";
 const buttonPoint = ".";
 const buttonEquals = "=";
 const buttonAllClear = "AC";
@@ -59,6 +60,10 @@ function buttonClickedReadValue(){
 
         case buttonPoint:
             pointClicked();
+            break;
+
+        case buttonPercent:
+            percentClicked();
             break;
 
         case buttonAllClear:
@@ -158,6 +163,25 @@ function pointClicked(){
 
         // Add the point to Second Number
         buildStringSecondNumber();
+        updateBottomDisplayWithCurrentExpression();
+    }
+}
+
+function percentClicked(){
+
+    if(operatorNotClickedPreviously){
+        firstNumber *= 0.1;
+        if(firstNumber % 2 === 0){
+            resetPointNotClicked();
+        }
+        updateBottomDisplayWithCurrentExpression();
+    }
+    
+    else{
+        secondNumber *= 0.1;
+        if(secondNumber % 2 === 0){
+            resetPointNotClicked();
+        }
         updateBottomDisplayWithCurrentExpression();
     }
 }
