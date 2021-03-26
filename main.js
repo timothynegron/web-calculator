@@ -13,6 +13,8 @@ let operatorNotClickedPreviously = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
+const buttonPlusMinus = "±";
+const buttonSquareRoot = "√"
 const buttonSquared = "x²"
 const buttonPercent = "%";
 const buttonPoint = ".";
@@ -20,8 +22,9 @@ const buttonEquals = "=";
 const buttonAllClear = "AC";
 const buttonPlus = "+";
 const buttonSubtract = "-";
-const buttonMultiply = document.querySelector("#button-multiply").innerText;
-const buttonDivide = document.querySelector("#button-divide").innerText;
+const buttonMultiply = "×";
+const buttonDivide = "÷";
+
 
 // ┌─────────────────────────┐
 // │   Set Event Listeners   │	
@@ -59,20 +62,28 @@ function buttonClickedReadValue(){
             operatorClicked();
             break;
 
-        case buttonPoint:
-            pointClicked();
+        case buttonAllClear:
+            allClearClicked();
             break;
 
-        case buttonPercent:
-            percentClicked();
+        case buttonSquareRoot:
+            squareRootClicked();
             break;
 
         case buttonSquared:
             squaredClicked();
             break;
 
-        case buttonAllClear:
-            allClearClicked();
+        case buttonPercent:
+            percentClicked();
+            break;
+
+        case buttonPlusMinus:
+            buttonPlusMinus();
+            break;
+
+        case buttonPoint:
+            pointClicked();
             break;
 
         default:
@@ -176,21 +187,27 @@ function pointClicked(){
 function percentClicked(){
 
     if(operatorNotClickedPreviously){
-        firstNumber *= 0.01;
-        pointNotClicked = false;
-        if(firstNumber % 2 === 0){
+        if(operatorNotClickedPreviously){
+            firstNumber *= 0.01;
+            pointNotClicked = false;
+            updateBottomDisplayWithCurrentExpression();
+        }
+        
+        if(Number.isInteger(firstNumber)){
             resetPointNotClicked();
         }
-        updateBottomDisplayWithCurrentExpression();
     }
     
     else{
-        secondNumber *= 0.01;
-        pointNotClicked = false;
-        if(secondNumber % 2 === 0){
+        if(secondNumber !== ""){
+            secondNumber *= 0.01;
+            pointNotClicked = false;
+            updateBottomDisplayWithCurrentExpression();
+        }
+
+        if(Number.isInteger(secondNumber)){
             resetPointNotClicked();
         }
-        updateBottomDisplayWithCurrentExpression();
     }
 }
 
@@ -214,6 +231,23 @@ function allClearClicked(){
 
     updateTopAndBottomDisplayAllClear();
     resetVariablesAllClearClicked();
+}
+
+// TODO: Refactor
+function squareRootClicked(){
+
+    if(operatorNotClickedPreviously){
+        firstNumber = Math.sqrt(firstNumber).toString();
+        updateBottomDisplayWithCurrentExpression();
+    }
+
+    else{
+        if(secondNumber !== ""){
+            secondNumber = Math.sqrt(Number(secondNumber));
+            updateBottomDisplayWithCurrentExpression();
+            console.log(firstNumber + operator + secondNumber);
+        }
+    }
 }
 
 function numberClicked(){
@@ -306,7 +340,7 @@ function updateTopDisplayWithPreviousExpression(){
 }
 
 function updateTopAndBottomDisplayAllClear() {
-    displayBottom.innerHTML = "";
+    displayBottom.innerHTML = "0";
     displayTop.innerHTML = "";
 }
 
