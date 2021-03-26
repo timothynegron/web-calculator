@@ -9,15 +9,17 @@ let result = "";
 let pointNotClicked = true;
 let resultDoesNotExist = true;
 let operatorNotClickedPreviously = true;
+
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
-const buttonPlus = document.querySelector("#button-plus").innerText;
-const buttonSubtract = document.querySelector("#button-subtract").innerText;
+
+const buttonPoint = ".";
+const buttonEquals = "=";
+const buttonAllClear = "AC";
+const buttonPlus = "+";
+const buttonSubtract = "-";
 const buttonMultiply = document.querySelector("#button-multiply").innerText;
 const buttonDivide = document.querySelector("#button-divide").innerText;
-const buttonEquals = document.querySelector("#button-equals").innerText;
-const buttonClear = document.querySelector("#button-c").innerText;
-const buttonPoint = document.querySelector("#button-point").innerText;
 
 // ┌─────────────────────────┐
 // │   Set Event Listeners   │	
@@ -29,16 +31,13 @@ setEventListeners();
 // └─────────────────────────────┘
 function setEventListeners(){
 
-    // Get all Buttons except equals
+    // Get all Buttons
     const allButtons = document.querySelectorAll(".calc-button");
 
-    // Set all Buttons except equals
+    // Set all Buttons
     for(let i = 0; i < allButtons.length; i++){
         allButtons[i].addEventListener("click", buttonClickedReadValue);
     }
-
-    // Set equals
-    document.querySelector("#button-equals").addEventListener("click", buttonClickedReadValue);
 }
 
 // ┌───────────────────────────────────────────────┐
@@ -62,7 +61,7 @@ function buttonClickedReadValue(){
             pointClicked();
             break;
 
-        case buttonClear:
+        case buttonAllClear:
             clearClicked();
             break;
 

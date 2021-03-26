@@ -131,12 +131,12 @@ input:checked + label {
     background-color: #df945a;
 }
 
-#button-c {
+#button-ac {
     background-color: rgb(98, 69, 69);
     color: white;
 }
 
-#button-c:hover {
+#button-ac:hover {
     background-color: rgb(183, 131, 131);
 }
 
