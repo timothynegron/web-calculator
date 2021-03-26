@@ -167,10 +167,11 @@ function pointClicked(){
     }
 }
 
+// TODO: Refactor
 function percentClicked(){
 
     if(operatorNotClickedPreviously){
-        firstNumber *= 0.1;
+        firstNumber *= 0.01;
         pointNotClicked = false;
         if(firstNumber % 2 === 0){
             resetPointNotClicked();
@@ -179,7 +180,7 @@ function percentClicked(){
     }
     
     else{
-        secondNumber *= 0.1;
+        secondNumber *= 0.01;
         pointNotClicked = false;
         if(secondNumber % 2 === 0){
             resetPointNotClicked();
