@@ -1,13 +1,14 @@
-// ┌──────────────────────┐
-// │   Global Variables   │	
-// └──────────────────────┘
+// ┌─────────────────────────────────┐
+// │   Initialize Global Variables   │	
+// └─────────────────────────────────┘
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
-let buttonPressedValue = "";
-let pointNotPressed = true;
+let buttonClickedValue = "";
+let result = "";
+let pointNotClicked = true;
 let resultDoesNotExist = true;
-let operatorNotPressed = true;
+let operatorNotClickedPreviously = true;
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 const buttonPlus = document.querySelector("#button-plus").innerText;
@@ -18,9 +19,9 @@ const buttonEquals = document.querySelector("#button-equals").innerText
 const buttonClear = document.querySelector("#button-c").innerText;
 const buttonPoint = document.querySelector("#button-point").innerText;
 
-// ┌───────────────────────────┐
-// │   Set App Functionality   │	
-// └───────────────────────────┘
+// ┌─────────────────────────┐
+// │   Set Event Listeners   │	
+// └─────────────────────────┘
 setEventListeners();
 
 // ┌─────────────────────┐
@@ -34,178 +35,158 @@ function setEventListeners(){
     // Set all Buttons except equals
     for(let i = 0; i < allButtons.length; i++)
     {
-        allButtons[i].addEventListener("click", buttonClicked)
+        allButtons[i].addEventListener("click", readButtonClicked)
     }
 
     // Set equals
-    document.querySelector("#button-equals").addEventListener("click", buttonClicked);
+    document.querySelector("#button-equals").addEventListener("click", readButtonClicked);
 }
 
 // ┌──────────────────────┐
 // │   Button Functions   │	
 // └──────────────────────┘
-function buttonClicked(){
+function readButtonClicked(){
     
-    buttonPressedValue = event.target.innerText;
+    buttonClickedValue = event.target.innerText;
 
-    // If Operator Button Pressed
-    if( buttonPressedValue === buttonPlus
-        || buttonPressedValue === buttonSubtract
-        || buttonPressedValue === buttonMultiply
-        || buttonPressedValue === buttonDivide)
-    {   
-        operatorPressed();
-    }
+    switch(buttonClickedValue){
 
-    // If Equals Button Pressed
-    else if(buttonPressedValue === buttonEquals)
-    {
-        // If firstNumber, operator, and secondNumber have values
-        if(firstNumber !== "" && operator !== "" && secondNumber !== "")
-        {
-            equalsPressed();
-        }
-    }
+        case buttonPlus:
+        case buttonSubtract:
+        case buttonMultiply:
+        case buttonDivide:
+        case buttonEquals:
+            operatorClicked();
+            break;
 
-    // If Clear Button Pressed
-    else if(buttonPressedValue === buttonClear)
-    {
-        clearDisplay();
-    }
+        case buttonPoint:
+            pointClicked();
+            break;
 
-    // If all cases are false then the value is a number
-    else
-    {
-        numberPressed();
+        case buttonClear:
+            updateDisplayClearAll();
+            break;
+
+        default:
+            numberClicked();
+            break;
     }
 }
 
-function numberPressed(){
+function equalsClicked(){
 
-    if(operatorNotPressed){
-
-        if(resultDoesNotExist)
-        {
-
-            if(pointNotPressed)
-            {
-                firstNumber += buttonPressedValue;
-                displayBottom.innerText = firstNumber;
-            }
-
-            else if(buttonPressedValue !== buttonPoint){
-                firstNumber += buttonPressedValue;
-                displayBottom.innerText = firstNumber;
-            }
+    // Only calculate only if there is an existing value for each variable
+    if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
+        if(isValidResult()){
+            updateDisplayWithResult();
         }
-    }
-
-    else
-    {
-
-        if(pointNotPressed){
-            secondNumber += buttonPressedValue;
-            updateBottomDisplay();
-            
-        }
-
-        else if(buttonPressedValue !== buttonPoint){
-            secondNumber += buttonPressedValue;
-            updateBottomDisplay();
-        }
-    }
-
-    if(buttonPressedValue === buttonPoint){
-        pointNotPressed = false;
     }
 }
 
-function operatorPressed(){
+function pointClicked(){
 
-    // If there is not first number
-    if(firstNumber !== "")
-    {
-        // If an operator not pressed previously
-        if(operatorNotPressed)
-        {
-            operator = buttonPressedValue;
-            displayBottom.innerText += buttonPressedValue;
-            operatorNotPressed = !operatorNotPressed;
-            pointNotPressed = true;
+    // If operator and point not previously Clicked
+    if(operatorNotClickedPreviously && pointNotClicked){
+        buildFirstNumber();
+        pointNotClicked = false;
+    }
+
+    // If point was not Clicked
+    else if(pointNotClicked){
+        buildSecondNumber();
+        pointNotClicked = false;
+    }
+}
+
+function numberClicked(){
+
+    // If a operator was not Clicked, do something
+    if(operatorNotClickedPreviously){
+
+        // If a result from a previous equation is not on the display, build the first number
+        if(resultDoesNotExist){
+            buildFirstNumber();
+        }
+    }
+
+    // A operator was Clicked previously, build the second number
+    else{
+            buildSecondNumber();
+    }
+}
+
+function operatorClicked(){
+
+    // Check if equals button was Clicked
+    if(buttonClickedValue === buttonEquals){
+        equalsClicked();
+    }
+
+    // Do something only if there is not a first number
+    else if(firstNumber !== ""){
+
+        // If + - * / was not Clicked previously
+        if(operatorNotClickedPreviously){
+            operatorClickedNewFirstNumber();
         }
     
-        // If there was an operator pressed previously
-        else
-        {
-            // If there is not a second number change the operator
-            if(secondNumber === "")
-            {
-                operator = buttonPressedValue;
-                updateBottomDisplayOperator();
+        // + - * / was Clicked previously
+        else{
+
+            // If there is a second number calculate and add the new operator
+            if(secondNumber !== ""){
+                operatorClickedAgain();
             }
 
-            // If there is a second number
-            if(secondNumber !== "")
-            {
-                operatorPressedAgain();
-                updateBottomDisplayOperator();
+            // If there is not a second number update the operator
+            if(secondNumber === ""){
+                operatorClickedChangeOperator();
             }
         }
     }
 }
 
-function equalsPressed(){
+function operatorClickedNewFirstNumber(){
 
-    // Update the top display
+    operatorNotClickedPreviously = false;
+
+    setOperator();
+    resetPointNotClicked();
+    updateDisplayWithCurrentExpression();
+}
+
+function operatorClickedAgain(){
+
+    if(isValidResult()){
+        setFirstNumberWithResult();
+        setOperator();
+        resetSecondNumber();
+        updateDisplayWithCurrentExpression();
+    }
+}
+
+function operatorClickedChangeOperator(){
+
+    setOperator();
+    updateDisplayWithCurrentExpression();
+}
+
+// ┌────────────────────┐
+// │   Math Functions   │	
+// └────────────────────┘
+
+function isValidResult(){
+
     updateTopDisplay();
 
-    // Calculate the expression
-    const result = calculate();
-
-    // If result the result is not a number
-    if(isNaN(result))
-    {
-        errorMessage();
-    }
-
-    // If the result is a number
-    else
-    {
-        displayBottom.innerText = result; 
-        firstNumber = result;
-        secondNumber = "";
-        operator = "";
-        operatorNotPressed = true;
-        pointNotPressed = false;
-        resultDoesNotExist = false;
-    }
-}
-
-// ┌──────────────────────┐
-// │   Helper Functions   │	
-// └──────────────────────┘
-
-function clearDisplay() {
+    result = calculate();
     
-    displayBottom.innerHTML = "";
-    displayTop.innerHTML = "";
-    resetAllVariables();
-}
+    if(isNaN(result)){
+        updateDisplayErrorMessage();
+        return false;
+    }
 
-function errorMessage() {
-
-    displayBottom.innerText = "Not a Number";
-    resetAllVariables();
-}
-
-function resetAllVariables(){
-
-    firstNumber = "";
-    secondNumber = "";
-    operator = "";
-    operatorNotPressed = true;
-    pointNotPressed = true;
-    resultDoesNotExist = true;
+    return true;
 }
 
 function calculate(){
@@ -227,30 +208,90 @@ function calculate(){
     }
 }
 
+// ┌──────────────────────┐
+// │   Helper Functions   │	
+// └──────────────────────┘
+
+function buildFirstNumber(){
+    firstNumber += buttonClickedValue;
+    updateDisplayWithCurrentExpression();
+}
+
+function buildSecondNumber(){
+    secondNumber += buttonClickedValue;
+    updateDisplayWithCurrentExpression();
+}
+
+function setOperator(){
+    operator = buttonClickedValue;
+}
+
+function updateDisplayWithCurrentExpression(){
+    displayBottom.innerText = firstNumber + operator + secondNumber;
+}
+
+function updateDisplayWithResult(){
+    displayBottom.innerText = result; 
+    resetEqualsClicked();
+}
+
 function updateTopDisplay(){
     displayTop.innerText = firstNumber + operator + secondNumber;
 }
 
-function updateBottomDisplay(){
-    displayBottom.innerText = firstNumber + operator + secondNumber;
+function updateDisplayErrorMessage(){
+    displayBottom.innerText = "Not a Number";
+    resetClearClicked();
 }
 
-function updateBottomDisplayOperator(){
-    displayBottom.innerText = firstNumber + operator;
+function updateDisplayClearAll() {
+    displayBottom.innerHTML = "";
+    displayTop.innerHTML = "";
+    resetClearClicked();
 }
 
-function operatorPressedAgain(){
-    updateTopDisplay();
-    // not checking for NaN
-    firstNumber = calculate();
-    operator = buttonPressedValue;
+function resetClearClicked(){
+    resetFirstNumber();
+    resetSecondNumber();
+    resetOperator();
+    resetOperatorNotClickedPreviously();
+    resetPointNotClicked();
+    resetResultDoesNotExist();
+}
+
+function resetEqualsClicked(){
+    setFirstNumberWithResult();
+    resetSecondNumber();
+    resetOperator();
+    resetOperatorNotClickedPreviously();
+    pointNotClicked = false;
+    resultDoesNotExist = false;
+}
+
+function setFirstNumberWithResult(){
+    firstNumber = result;
+}
+
+function resetFirstNumber(){
+    firstNumber = "";
+}
+
+function resetSecondNumber(){
     secondNumber = "";
 }
 
-// displayBottom.innerText = result; 
-// firstNumber = result;
-// secondNumber = "";
-// operator = ""; <---
-// operatorNotPressed = true; <---
-// pointNotPressed = false; <---
-// resultDoesNotExist = false; <---
+function resetOperator(){
+    operator = "";
+}
+
+function resetOperatorNotClickedPreviously(){
+    operatorNotClickedPreviously = true;
+}
+
+function resetPointNotClicked(){
+    pointNotClicked = true;
+}
+
+function resetResultDoesNotExist(){
+    resultDoesNotExist = true;
+}
