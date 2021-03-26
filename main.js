@@ -35,17 +35,17 @@ function setEventListeners(){
     // Set all Buttons except equals
     for(let i = 0; i < allButtons.length; i++)
     {
-        allButtons[i].addEventListener("click", readButtonClicked)
+        allButtons[i].addEventListener("click", buttonClickedReadValue)
     }
 
     // Set equals
-    document.querySelector("#button-equals").addEventListener("click", readButtonClicked);
+    document.querySelector("#button-equals").addEventListener("click", buttonClickedReadValue);
 }
 
 // ┌──────────────────────┐
 // │   Button Functions   │	
 // └──────────────────────┘
-function readButtonClicked(){
+function buttonClickedReadValue(){
     
     buttonClickedValue = event.target.innerText;
 
@@ -64,14 +64,18 @@ function readButtonClicked(){
             break;
 
         case buttonClear:
-            updateBottomAndTopDisplayClearAll();
-            resetAllClearClicked();
+            clearClicked();
             break;
 
         default:
             numberClicked();
             break;
     }
+}
+
+function clearClicked(){
+    updateBottomAndTopDisplayClearAll();
+    resetAllClearClicked();
 }
 
 function equalsClicked(){
@@ -171,9 +175,9 @@ function operatorClickedAgain(){
 
 function isValidResult(){
 
-    updateTopDisplay();
-
     result = calculate();
+
+    updateTopDisplayWithPreviousExpression();
     
     if(isNaN(result)){
         updateBottomDisplayErrorMessage();
@@ -230,7 +234,7 @@ function updateBottomDisplayWithResult(){
     displayBottom.innerText = result; 
 }
 
-function updateTopDisplay(){
+function updateTopDisplayWithPreviousExpression(){
     displayTop.innerText = firstNumber + operator + secondNumber;
 }
 
