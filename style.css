@@ -10,8 +10,6 @@ h1 {
 }
 
 button {
-    border: solid;
-    border-width: 5px;
     font-family: 'Roboto Mono', monospace;
     font-size: 20pt;
     border-radius: 3px;
@@ -114,7 +112,7 @@ input:checked + label {
 }
 
 #bottom-container {
-    height: 70%;
+    height: 72%;
     width: 95%;
     border-radius: 25px;
     display: flex;
@@ -123,7 +121,7 @@ input:checked + label {
 
 #button-equals {
     width: 85%;
-    height: 36.3%;
+    height: 66%;
     background-color: #DB6400;
 }
 
@@ -138,22 +136,6 @@ input:checked + label {
 
 #button-ac:hover {
     background-color: rgb(183, 131, 131);
-}
-
-#button-plus:hover {
-    background-color: rgb(177, 175, 175);
-}
-
-#button-subtract:hover {
-    background-color: rgb(177, 175, 175);
-}
-
-#button-multiply:hover {
-    background-color: rgb(177, 175, 175);
-}
-
-#button-divide:hover {
-    background-color: rgb(177, 175, 175);
 }
 
 #night-mode-container {
@@ -174,12 +156,26 @@ input:checked + label {
 }
 
 .calc-button {
-    width: 85%;
-    height: 15%;
+    width: 83%;
+    height: 13%;
 }
 
 .calc-button-color-1 {
-    background-color: rgb(98, 98, 98);
+    /* background-color: #DB6400; */
+    background-color:  rgb(116, 116, 116);
+}
+
+.calc-button-color-1:hover {
+    background-color: rgb(177, 175, 175)
+}
+
+.calc-button-color-2 {
+    background-color: rgb(116, 116, 116);
+    /* color: white; */
+}
+
+.calc-button-color-2:hover {
+    background-color: rgb(177, 175, 175)
 }
 
 /* Media Query */

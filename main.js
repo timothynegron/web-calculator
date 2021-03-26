@@ -196,6 +196,7 @@ function percentClicked(){
 
 // TODO: Refactor
 function squaredClicked(){
+
     if(operatorNotClickedPreviously){
         firstNumber *= firstNumber
         updateBottomDisplayWithCurrentExpression();
@@ -354,3 +355,7 @@ function resetResultDoesNotExist(){
 function setFirstNumberWithResult(){
     firstNumber = result;
 }
+
+// Bugs
+// NaN after percent 
+// NaN after squared
