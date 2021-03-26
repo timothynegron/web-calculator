@@ -75,10 +75,53 @@ function buttonClickedReadValue(){
 // │   Button Clicked Functions   │	
 // └──────────────────────────────┘
 
-function clearClicked(){
+function operatorClicked(){
 
-    updateBottomAndTopDisplayClearAll();
-    resetAllClearClicked();
+    // Check if equals button was Clicked
+    if(buttonClickedValue === buttonEquals){
+        equalsClicked();
+    }
+
+    // If equals button not clicked, do something only if there is NOT a first number
+    else if(firstNumber !== ""){
+
+        // If [ + || - || * || / ] was NOT Clicked previously
+        if(operatorNotClickedPreviously){
+            operatorClickedNewFirstNumber();
+        }
+    
+        // [ + || - || * || / ] was Clicked previously
+        else{
+            operatorClickedAgain();
+        }
+    }
+}
+
+function operatorClickedNewFirstNumber(){
+
+    operatorNotClickedPreviously = false;
+
+    buildStringOperator();
+    resetPointNotClicked();
+}
+
+function operatorClickedAgain(){
+
+    // If there is a second number calculate and set the new operator
+    if(secondNumber !== ""){
+                
+        if(isValidResult()){
+            setFirstNumberWithResult();
+            resetSecondNumber();
+            buildStringOperator();
+        }
+    }
+
+    // If there is not a second number update the operator
+    if(secondNumber === ""){
+        buildStringOperator();
+    }
+    
 }
 
 function equalsClicked(){
@@ -91,6 +134,7 @@ function equalsClicked(){
         }
     }
 }
+
 
 function pointClicked(){
 
@@ -107,6 +151,12 @@ function pointClicked(){
     }
 }
 
+function clearClicked(){
+
+    updateBottomAndTopDisplayClearAll();
+    resetAllClearClicked();
+}
+
 function numberClicked(){
 
     // If a operator was NOT Clicked, do something
@@ -121,54 +171,6 @@ function numberClicked(){
     // A operator was Clicked previously, build the second number
     else{
             buildStringSecondNumber();
-    }
-}
-
-function operatorClicked(){
-
-    // Check if equals button was Clicked
-    if(buttonClickedValue === buttonEquals){
-        equalsClicked();
-    }
-
-    // Do something only if there is NOT a first number
-    else if(firstNumber !== ""){
-
-        // If [ + || - || * || / ] was NOT Clicked previously
-        if(operatorNotClickedPreviously){
-            operatorClickedNewFirstNumber();
-        }
-    
-        // [ + || - || * || / ] was Clicked previously
-        else{
-
-            // If there is a second number calculate and set the new operator
-            if(secondNumber !== ""){
-                operatorClickedAgain();
-            }
-
-            // If there is not a second number update the operator
-            if(secondNumber === ""){
-                buildStringOperator();
-            }
-        }
-    }
-}
-
-function operatorClickedNewFirstNumber(){
-
-    operatorNotClickedPreviously = false;
-
-    buildStringOperator();
-    resetPointNotClicked();
-}
-
-function operatorClickedAgain(){
-
-    if(isValidResult()){
-        setFirstNumberWithResult();
-        resetSecondNumber();
-        buildStringOperator();
     }
 }
 
