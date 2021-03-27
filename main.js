@@ -10,7 +10,7 @@ let pointNotClicked = true;
 let resultDoesNotExist = true;
 let operatorNotClickedPreviously = true;
 
-let displayBottom = document.querySelector("#display-bottom");
+const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
 const buttonPlusMinus = "±";
@@ -25,7 +25,6 @@ const buttonSubtract = "-";
 const buttonMultiply = "×";
 const buttonDivide = "÷";
 
-
 // ┌─────────────────────────┐
 // │   Set Event Listeners   │	
 // └─────────────────────────┘
@@ -34,6 +33,7 @@ setEventListeners();
 // ┌─────────────────────────────┐
 // │   Event Listener Function   │	
 // └─────────────────────────────┘
+
 function setEventListeners(){
 
     // Get all Buttons
@@ -48,6 +48,7 @@ function setEventListeners(){
 // ┌───────────────────────────────────────────────┐
 // │   Read The Button That Was Clicked Function   │	
 // └───────────────────────────────────────────────┘
+
 function buttonClickedReadValue(){
     
     buttonClickedValue = event.target.innerText;
@@ -95,7 +96,6 @@ function buttonClickedReadValue(){
 // ┌──────────────────────────────┐
 // │   Button Clicked Functions   │	
 // └──────────────────────────────┘
-
 function operatorClicked(){
 
     // Check if equals button was Clicked
@@ -329,6 +329,7 @@ function buildStringFirstNumber(){
     // User wants to build a new number FirstNumber after a previous result
     else{
         resetFirstNumber();
+        resetPointNotClicked();
         resetResultDoesNotExist();
         firstNumber += buttonClickedValue;
     }
@@ -410,11 +411,14 @@ function setFirstNumberWithResult(){
     firstNumber = result;
 }
 
-// Bugs
-// NaN after percent 
-// NaN after squared
-// Nan after point and then modulus
-
-// Add zero if not number exist and point clicked
-
-// Display drops slightly
+// ---------------------------------------------
+//                     BUGS
+// ---------------------------------------------
+//
+// ----> NaN: Period than squared
+// ----> NaN: Period than modulus
+//
+// ----> Could add numbers after percent entered.
+//
+// ---------------------------------------------
+// ---------------------------------------------
