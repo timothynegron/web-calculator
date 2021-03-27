@@ -99,14 +99,14 @@ input:checked + label {
 }
 
 #display-bottom {
-    font-size: 14pt;
+    font-size: 26pt;
     width: 95%;
     text-align: right;
     word-wrap:break-word
 }
 
 #display-top {
-    font-size: 10pt;
+    font-size: 14pt;
     width: 95%;
     text-align: right;
     word-wrap:break-word;
