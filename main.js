@@ -79,7 +79,7 @@ function buttonClickedReadValue(){
             break;
 
         case buttonPlusMinus:
-            buttonPlusMinus();
+            plusMinusClicked();
             break;
 
         case buttonPoint:
@@ -183,15 +183,27 @@ function pointClicked(){
     }
 }
 
+// TODO: Refactor, (Parenthesis features)
+function plusMinusClicked(){
+
+    if(operatorNotClickedPreviously){
+        firstNumber *= -1;
+        updateBottomDisplayWithCurrentExpression();
+    }
+
+    else{
+        secondNumber *= -1;
+        updateBottomDisplayWithCurrentExpression();
+    }
+}
+
 // TODO: Refactor
 function percentClicked(){
 
     if(operatorNotClickedPreviously){
-        if(operatorNotClickedPreviously){
-            firstNumber *= 0.01;
-            pointNotClicked = false;
-            updateBottomDisplayWithCurrentExpression();
-        }
+        firstNumber *= 0.01;
+        pointNotClicked = false;
+        updateBottomDisplayWithCurrentExpression();
         
         if(Number.isInteger(firstNumber)){
             resetPointNotClicked();
