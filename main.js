@@ -10,7 +10,7 @@ let pointNotClicked = true;
 let resultDoesNotExist = true;
 let operatorNotClickedPreviously = true;
 
-const displayBottom = document.querySelector("#display-bottom");
+let displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
 
 const buttonPlusMinus = "±";
@@ -325,6 +325,13 @@ function buildStringFirstNumber(){
     if(resultDoesNotExist){
         firstNumber += buttonClickedValue;
     }
+
+    // User wants to build a new number FirstNumber after a previous result
+    else{
+        resetFirstNumber();
+        resetResultDoesNotExist();
+        firstNumber += buttonClickedValue;
+    }
 }
 
 function buildStringSecondNumber(){
@@ -348,6 +355,7 @@ function updateBottomDisplayWithErrorMessage(){
 }
 
 function updateTopDisplayWithPreviousExpression(){
+
     displayTop.innerText = firstNumber + operator + secondNumber;
 }
 
@@ -405,3 +413,8 @@ function setFirstNumberWithResult(){
 // Bugs
 // NaN after percent 
 // NaN after squared
+// Nan after point and then modulus
+
+// Add zero if not number exist and point clicked
+
+// Display drops slightly
