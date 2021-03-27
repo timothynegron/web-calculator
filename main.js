@@ -6,7 +6,7 @@ let secondNumber = "";
 let operator = "";
 let buttonClickedValue = "";
 let result = "";
-let pointNotClicked = true;
+let decimalNotClicked = true;
 let resultDoesNotExist = true;
 let basicOperatorNotClickedPreviously = true;
 
@@ -18,7 +18,7 @@ const symbolSquareRoot = "√"
 const symbolSquared_1 = "x²"
 const symbolSquared_2 = "²"
 const symbolPercent = "%";
-const symbolPoint = ".";
+const symbolDecimal = ".";
 const symbolEquals = "=";
 const symbolAllClear = "AC";
 const symbolPlus = "+";
@@ -87,8 +87,8 @@ function buttonClickedReadValue(){
             plusMinusClicked();
             break;
 
-        case symbolPoint:
-            pointClicked();
+        case symbolDecimal:
+            decimalClicked();
             break;
 
         default:
@@ -120,7 +120,7 @@ function basicOperatorClickedSetOperator(){
 
     setOperator();
     updateBottomDisplayWithCurrentExpression();
-    resetPointNotClicked();
+    resetDecimalNotClicked();
 }
 
 function basicOperatorClickedAgain(){
@@ -134,7 +134,7 @@ function basicOperatorClickedAgain(){
     // If there is a second number and valid result, display the result and operator
     if(secondNumber !== "" && isValidResult()){
 
-        resetPointNotClicked();
+        resetDecimalNotClicked();
         resetSecondNumber();
 
         setFirstNumberWithResult();
@@ -149,7 +149,7 @@ function equalsClicked(){
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
         if(isValidResult()){
             updateBottomDisplayWithResult();
-            resetVariablesEqualsClicked();
+            resetVariablesAfterCalculation();
         }
     }
 }
@@ -167,6 +167,7 @@ function squareRootClicked(){
         displayTop.innerText = symbolSquareRoot + " " + firstNumber;
         if(isValidSquareRoot(firstNumber)){
             setFirstNumberWithResult();
+            resetVariablesAfterCalculation();
             updateBottomDisplayWithCurrentExpression();
         }
     }
@@ -178,9 +179,7 @@ function squareRootClicked(){
                 secondNumber = result;
                 result = calculateExpression();
                 updateBottomDisplayWithCurrentExpression();
-                setFirstNumberWithResult();
-                resetOperator();
-                resetSecondNumber();
+                resetVariablesAfterCalculation();
                 updateBottomDisplayWithCurrentExpression();
             }
         }
@@ -192,6 +191,7 @@ function squaredClicked(){
     if(basicOperatorNotClickedPreviously){
         if(isValidSquare(firstNumber)){
             setFirstNumberWithResult();
+            resetVariablesAfterCalculation();
             updateBottomDisplayWithCurrentExpression();
         }
     }
@@ -201,9 +201,7 @@ function squaredClicked(){
             if(isValidSquare(secondNumber)){
                 secondNumber = result;
                 result = calculateExpression();
-                setFirstNumberWithResult();
-                resetOperator();
-                resetSecondNumber();
+                resetVariablesAfterCalculation();
                 updateBottomDisplayWithCurrentExpression();
             }
         }
@@ -215,6 +213,7 @@ function percentClicked(){
     if(basicOperatorNotClickedPreviously){
         if(isValidPercent(firstNumber)){
             setFirstNumberWithResult();
+            resetVariablesAfterCalculation();
             updateBottomDisplayWithCurrentExpression();
         }
     }
@@ -223,46 +222,53 @@ function percentClicked(){
         if(isValidPercent(secondNumber)){
             secondNumber = result;
             result = calculateExpression();
-            setFirstNumberWithResult();
-            resetOperator();
-            resetSecondNumber();
+            resetVariablesAfterCalculation();
             updateBottomDisplayWithCurrentExpression();
         }
     }
 }
 
-// TODO: Refactor, (Parenthesis features)
+// TODO: Parenthesis feature
 function plusMinusClicked(){
 
-    if(basicOperatorNotClickedPreviously){
+    if(basicOperatorNotClickedPreviously && firstNumber !== ""){
         firstNumber *= -1;
         updateBottomDisplayWithCurrentExpression();
     }
 
-    else{
+    else if(secondNumber !== ""){
         secondNumber *= -1;
         updateBottomDisplayWithCurrentExpression();
     }
+    // if number less then zero, add parenthesis
 }
 
-function pointClicked(){
+function decimalClicked(){
 
-    // If point was NOT Clicked previously AND operator was not
-    if(pointNotClicked && basicOperatorNotClickedPreviously === true){
+    // If decimal was NOT Clicked previously AND operator was not
+    if(decimalNotClicked && basicOperatorNotClickedPreviously === true){
 
-        pointNotClicked = false;
+        decimalNotClicked = false;
 
-        // Add the point to First Number
+        if(firstNumber === ""){
+            firstNumber += 0;
+        }
+
+        // Add the decimal to First Number
         buildStringFirstNumber();
         updateBottomDisplayWithCurrentExpression();
     }
 
-    // If point was NOT Clicked previously AND operator was clicked
-    if(pointNotClicked && basicOperatorNotClickedPreviously === false){
+    // If decimal was NOT Clicked previously AND operator was clicked
+    if(decimalNotClicked && basicOperatorNotClickedPreviously === false){
 
-        pointNotClicked = false;
+        decimalNotClicked = false;
 
-        // Add the point to Second Number
+        if(secondNumber === ""){
+            secondNumber += 0;
+        }
+
+        // Add the decimal to Second Number
         buildStringSecondNumber();
         updateBottomDisplayWithCurrentExpression();
     }
@@ -340,14 +346,10 @@ function isValidSquare(number){
 function isValidPercent(number){
     
     result = number *= 0.01;
-    pointNotClicked = false;
+    decimalNotClicked = false;
 
     updateTopDisplayWithPreviousExpression();
     displayTop.innerText += symbolPercent;
-    
-    if(Number.isInteger(result)){
-        resetPointNotClicked();
-    }
 
     if(isNaN(result)){
         updateBottomDisplayWithErrorMessage();
@@ -375,34 +377,72 @@ function isValidSquareRoot(number){
 // │   Helper Functions   │	
 // └──────────────────────┘
 
+// TODO: Engineering Notation: firstNumber = Number(firstNumber).toPrecision(3);
 function buildStringFirstNumber(){
 
     // If no result from a previous equation exist, build the first number
     if(resultDoesNotExist){
-        firstNumber += buttonClickedValue;
+        
+        const zero = "0"
 
-        // TODO: Engineering Notation
-        // if(firstNumber.length > 12){
-        //     firstNumber = Number(firstNumber).toPrecision(3);
-        // }
+        // CASE 1: Add numbers that are not zero
+        if(firstNumber !== zero && buttonClickedValue !== zero){
+            firstNumber += buttonClickedValue;
+        }
+        
+        // CASE 2: Add a zero before a decimal if no non zero numbers were clicked previously
+        else if(firstNumber === zero && buttonClickedValue === symbolDecimal){
+            firstNumber = zero;
+            firstNumber += buttonClickedValue;
+        }
+
+        // CASE 3: Remove the original zero if no decimal was pressed
+        else if(firstNumber === zero){
+            firstNumber = zero;
+            firstNumber += buttonClickedValue;
+        }
+
+        // CASE 4: It's ok to add a zero after only if case 3 executes
+        else if(buttonClickedValue === zero){
+            firstNumber += buttonClickedValue;
+        }
     }
 
     // User wants to build a new FirstNumber after a previous result
     else{
         resetFirstNumber();
-        resetPointNotClicked();
+        resetDecimalNotClicked();
         resetResultDoesNotExist();
         firstNumber += buttonClickedValue;
     }
 }
 
+// TODO: Engineering Notation:  secondNumber = Number(secondNumber).toPrecision(3);
 function buildStringSecondNumber(){
-    secondNumber += buttonClickedValue;
 
-    // TODO: Engineering Notation
-    //if((firstNumber + operator + secondNumber).length > 12){
-    //    secondNumber = Number(secondNumber).toPrecision(3);
-    //}
+    const zero = "0"
+
+    // CASE 1: Add numbers that are not zero
+    if(secondNumber !== zero && buttonClickedValue !== zero){
+        secondNumber += buttonClickedValue;
+    }
+    
+    // CASE 2: Add a zero before a decimal if no non zero numbers were clicked previously
+    else if(secondNumber === zero && buttonClickedValue === symbolDecimal){
+        secondNumber = "0"
+        secondNumber += buttonClickedValue;
+    }
+
+    // CASE 3: Remove the original zero if no decimal was pressed
+    else if(secondNumber === zero){
+        secondNumber = "";
+        secondNumber += buttonClickedValue;
+    }
+
+    // CASE 4: It's ok to add a zero after only if case 3 executes
+    else if(buttonClickedValue === zero){
+        secondNumber += buttonClickedValue;
+    }
 }
 
 function setOperator(){
@@ -440,16 +480,16 @@ function resetVariablesAllClearClicked(){
     resetSecondNumber();
     resetOperator();
     resetOperatorNotClickedPreviously();
-    resetPointNotClicked();
+    resetDecimalNotClicked();
     resetResultDoesNotExist();
 }
 
-function resetVariablesEqualsClicked(){
+function resetVariablesAfterCalculation(){
     setFirstNumberWithResult();
     resetSecondNumber();
     resetOperator();
     resetOperatorNotClickedPreviously();
-    pointNotClicked = false;
+    decimalNotClicked = false;
     resultDoesNotExist = false;
 }
 
@@ -469,8 +509,8 @@ function resetOperatorNotClickedPreviously(){
     basicOperatorNotClickedPreviously = true;
 }
 
-function resetPointNotClicked(){
-    pointNotClicked = true;
+function resetDecimalNotClicked(){
+    decimalNotClicked = true;
 }
 
 function resetResultDoesNotExist(){
@@ -478,18 +518,12 @@ function resetResultDoesNotExist(){
 }
 
 // ---------------------------------------------
-//                     BUGS
 // ---------------------------------------------
 //
-// ----> NaN: Period than squared
-// ----> NaN: Period than modulus
-//
-// ----> Could add numbers after percent entered.
-//
-// ---------------------------------------------
-// ---------------------------------------------
-
 // Feature ---> Equals clicked AGAIN with only one operator
 // Feature ---> Parenthesis around negative number for second number (build parenthesis)
 // Feature ---> Engineering Notation
 // Feature ---> square, percent, square root on top display
+//
+// ---------------------------------------------
+// ---------------------------------------------
