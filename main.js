@@ -9,6 +9,8 @@ let result = "";
 let decimalNotClicked = true;
 let resultDoesNotExist = true;
 let basicOperatorNotClickedPreviously = true;
+let repeaterFirstNumber = "";
+let repeaterBasicOperator = "";
 
 const displayBottom = document.querySelector("#display-bottom");
 const displayTop = document.querySelector("#display-top");
@@ -103,6 +105,9 @@ function buttonClickedReadValue(){
 
 function basicOperatorClicked(){
 
+    repeaterFirstNumber = firstNumber;
+    repeaterBasicOperator = operator;
+
     // If operators [ + || - || * || / ] was NOT Clicked previously
     if(basicOperatorNotClickedPreviously){
         basicOperatorClickedSetOperator();
@@ -148,8 +153,31 @@ function equalsClicked(){
     //Only calculate only if there is an existing value for each variable
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
         if(isValidResult()){
+            repeaterFirstNumber = secondNumber;
+            repeaterBasicOperator = operator;
             updateBottomDisplayWithResult();
             resetVariablesAfterCalculation();
+        }
+    }
+    else if(firstNumber !== "" && operator !== ""){
+        secondNumber = repeaterFirstNumber;
+        if(isValidResult()){
+            secondNumber = "";
+            firstNumber = result;
+            updateBottomDisplayWithCurrentExpression();
+            resetDecimalNotClicked();
+            //resetVariablesAfterCalculation();
+        }
+    }
+    else if(repeaterBasicOperator != "") {
+        secondNumber = repeaterFirstNumber;
+        operator = repeaterBasicOperator;
+        if(isValidResult()){
+            secondNumber = "";
+            firstNumber = result;
+            updateBottomDisplayWithCurrentExpression();
+            resetDecimalNotClicked();
+            //resetVariablesAfterCalculation();
         }
     }
 }
@@ -245,7 +273,7 @@ function plusMinusClicked(){
 
 function decimalClicked(){
 
-    // If decimal was NOT Clicked previously AND operator was not
+    // If decimal was NOT Clicked previously AND operator was not clicked
     if(decimalNotClicked && basicOperatorNotClickedPreviously === true){
 
         decimalNotClicked = false;
@@ -259,7 +287,7 @@ function decimalClicked(){
         updateBottomDisplayWithCurrentExpression();
     }
 
-    // If decimal was NOT Clicked previously AND operator was clicked
+    // If decimal was NOT Clicked previously AND a operator was clicked
     if(decimalNotClicked && basicOperatorNotClickedPreviously === false){
 
         decimalNotClicked = false;
@@ -373,17 +401,19 @@ function isValidSquareRoot(number){
     return true;
 }
 
-// ┌──────────────────────┐
-// │   Helper Functions   │	
-// └──────────────────────┘
+// ┌───────────────────────────────┐
+// │   String building Functions   │	
+// └───────────────────────────────┘
+
+// TODO: Refactor
 
 // TODO: Engineering Notation: firstNumber = Number(firstNumber).toPrecision(3);
 function buildStringFirstNumber(){
 
     // If no result from a previous equation exist, build the first number
     if(resultDoesNotExist){
-        
-        const zero = "0"
+
+        const zero = "0";
 
         // CASE 1: Add numbers that are not zero
         if(firstNumber !== zero && buttonClickedValue !== zero){
@@ -420,7 +450,7 @@ function buildStringFirstNumber(){
 // TODO: Engineering Notation:  secondNumber = Number(secondNumber).toPrecision(3);
 function buildStringSecondNumber(){
 
-    const zero = "0"
+    const zero = "0";
 
     // CASE 1: Add numbers that are not zero
     if(secondNumber !== zero && buttonClickedValue !== zero){
@@ -429,7 +459,7 @@ function buildStringSecondNumber(){
     
     // CASE 2: Add a zero before a decimal if no non zero numbers were clicked previously
     else if(secondNumber === zero && buttonClickedValue === symbolDecimal){
-        secondNumber = "0"
+        secondNumber = zero;
         secondNumber += buttonClickedValue;
     }
 
@@ -444,6 +474,10 @@ function buildStringSecondNumber(){
         secondNumber += buttonClickedValue;
     }
 }
+
+// ┌──────────────────────┐
+// │   Helper Functions   │	
+// └──────────────────────┘
 
 function setOperator(){
     operator = buttonClickedValue;
@@ -482,6 +516,8 @@ function resetVariablesAllClearClicked(){
     resetOperatorNotClickedPreviously();
     resetDecimalNotClicked();
     resetResultDoesNotExist();
+    repeaterFirstNumber = "";
+    repeaterBasicOperator = "";
 }
 
 function resetVariablesAfterCalculation(){
@@ -520,10 +556,10 @@ function resetResultDoesNotExist(){
 // ---------------------------------------------
 // ---------------------------------------------
 //
-// Feature ---> Equals clicked AGAIN with only one operator
 // Feature ---> Parenthesis around negative number for second number (build parenthesis)
 // Feature ---> Engineering Notation
-// Feature ---> square, percent, square root on top display
+// Feature ---> AC turns to Clear
+// Feature ---> Operator pressed without a zero adds a 0
 //
 // ---------------------------------------------
 // ---------------------------------------------
