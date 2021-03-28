@@ -1,7 +1,7 @@
 # Web Calculator
 
-A calculator app made with HTML, CSS, JavaScript.
+A calculator app made with HTML, CSS, JavaScript, Flexbox, Media Query.
 
 ### Images
 
-![calculator image](images/calculator-v2.png)
+![calculator image](images/calculator.png)
