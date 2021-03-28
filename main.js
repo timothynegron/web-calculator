@@ -221,6 +221,11 @@ function clearClicked(){
         updateBottomDisplayWithCurrentExpression();
         document.querySelector("#button-ac").innerText = symbolAllClear;
     }
+
+    else if(displayBottom.innerText === "Error"){
+        updateBottomDisplayWithCurrentExpression();
+        document.querySelector("#button-ac").innerText = symbolAllClear;
+    }
 }
 
 // TODO: Refactor
