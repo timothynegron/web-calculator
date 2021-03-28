@@ -1,6 +1,7 @@
 // ┌─────────────────────────────────┐
 // │   Initialize Global Variables   │	
 // └─────────────────────────────────┘
+
 let firstNumber = "";
 let secondNumber = "";
 let operator = "";
@@ -32,6 +33,7 @@ const symbolDivide = "÷";
 // ┌─────────────────────────┐
 // │   Set Event Listeners   │	
 // └─────────────────────────┘
+
 setEventListeners();
 
 // ┌─────────────────────────────┐
@@ -108,23 +110,41 @@ function buttonClickedReadValue(){
 // │   Button Clicked Functions   │	
 // └──────────────────────────────┘
 
+function numberClicked(){
+
+    // Handle First Number
+    if(basicOperatorNotClickedPreviously){
+        buildStringFirstNumber();
+        updateBottomDisplayWithCurrentExpression();
+    }
+
+    // Handle Second Number
+    else{
+        buildStringSecondNumber();
+        updateBottomDisplayWithCurrentExpression();
+    }
+}
+
 function basicOperatorClicked(){
 
+    // CASE: Basic operator clicked and first number empty
     if(firstNumber === ""){
+
         firstNumber = "0";
     }
 
+    // Set the equals button repeat feature
     repeaterFirstNumber = firstNumber;
     repeaterBasicOperator = operator;
 
-    // If operators [ + || - || * || / ] was NOT Clicked previously
+    // CASE 1: A basic operator was NOT Clicked previously
     if(basicOperatorNotClickedPreviously){
         basicOperatorClickedSetOperator();
     }
 
-    // Operators [ + || - || * || / ] was Clicked previously
+    // CASE 2: A basic operator was Clicked previously
     else{
-        basicOperatorClickedAgain();
+        basicOperatorClickedPreviously();
     }
 }
 
@@ -132,26 +152,23 @@ function basicOperatorClickedSetOperator(){
 
     basicOperatorNotClickedPreviously = false;
 
-
     setOperator();
     updateBottomDisplayWithCurrentExpression();
     resetDecimalNotClicked();
 }
 
-function basicOperatorClickedAgain(){
+function basicOperatorClickedPreviously(){
 
-    // If there is not a second number update the operator
+    // CASE 1: No second number was entered
     if(secondNumber === ""){
         setOperator();
         updateBottomDisplayWithCurrentExpression();
     }
 
-    // If there is a second number and valid result, display the result and operator
+    // CASE 2: There is a second number
     if(secondNumber !== "" && isValidResultEqualsPressed()){
-
         resetDecimalNotClicked();
         resetSecondNumber();
-
         setFirstNumberWithResult();
         setOperator();
         updateBottomDisplayWithCurrentExpression();
@@ -160,158 +177,189 @@ function basicOperatorClickedAgain(){
 
 function equalsClicked(){
 
-    //Only calculate only if there is an existing value for each variable
+    // CASE 1: There is a complete expression
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
+        
         if(isValidResultEqualsPressed()){
+
+            // Set up the repeater variables
             repeaterFirstNumber = secondNumber;
             repeaterBasicOperator = operator;
+
             updateBottomDisplayWithResult();
             resetVariablesAfterCalculation();
         }
     }
+
+    // CASE 2: There is only a first number and operator
     else if(firstNumber !== "" && operator !== ""){
+
         secondNumber = repeaterFirstNumber;
+
         if(isValidResultEqualsPressed()){
             resetSecondNumber();
-            firstNumber = result;
+            setFirstNumberWithResult();
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
         }
     }
-    else if(repeaterBasicOperator != "") {
+
+    // CASE 3: There is only a first number but a repeater was setup
+    else if(repeaterFirstNumber != "" && repeaterBasicOperator !== "") {
+
         secondNumber = repeaterFirstNumber;
         operator = repeaterBasicOperator;
+
         if(isValidResultEqualsPressed()){
+
+            basicOperatorNotClickedPreviously = false;
+
             resetSecondNumber();
-            firstNumber = result;
+            setFirstNumberWithResult();
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
-            basicOperatorNotClickedPreviously = false;
         }
     }
 }
 
 function allClearClicked(){
-
     updateTopAndBottomDisplayAllClear();
     resetVariablesAllClearClicked();
 }
 
 function clearClicked(){
 
+    // CASE 1: Clear the second number
     if(secondNumber !== ""){
+
         let temp_1 = firstNumber;
         let temp_2 = operator;
+
         resetVariablesAfterCalculation();
+
         firstNumber = temp_1;
         operator = temp_2;
+
         updateBottomDisplayWithCurrentExpression();
     }
 
+    // CASE 2: Clear the operator
     else if(operator !== ""){
+
         let temp = firstNumber;
+
         resetVariablesAllClearClicked();
+
         firstNumber = temp;
+
         updateBottomDisplayWithCurrentExpression();
     }
 
+    // CASE 3: Clear the first number
     else if(firstNumber !== ""){
+
         resetVariablesAllClearClicked();
+
         firstNumber = "0";
+
         updateBottomDisplayWithCurrentExpression();
-        document.querySelector("#button-ac").innerText = symbolAllClear;
+        setAllClearButton();
     }
 
+    // CASE 4: Clear any error message no the display
     else if(displayBottom.innerText === "Error"){
+
         updateBottomDisplayWithCurrentExpression();
-        document.querySelector("#button-ac").innerText = symbolAllClear;
+        setAllClearButton();
     }
 }
 
-// TODO: Refactor
 function squareRootClicked(){
 
-    if(basicOperatorNotClickedPreviously){
-        displayTop.innerText = symbolSquareRoot + " " + firstNumber;
-        if(isValidSquareRoot(firstNumber)){
-            setFirstNumberWithResult();
-            resetVariablesAfterCalculation();
-            updateBottomDisplayWithCurrentExpression();
-        }
+    // Handle First Number
+    if(basicOperatorNotClickedPreviously && isValidSquareRoot(firstNumber)){
+        setFirstNumberWithResult();
+        resetVariablesAfterCalculation();
+        updateBottomDisplayWithCurrentExpression();
     }
 
-    else{
-        if(secondNumber !== ""){
-            displayTop.innerText = firstNumber + " " + operator + " " + symbolSquareRoot + " " + secondNumber;
-            if(isValidSquareRoot(secondNumber)){
-                secondNumber = result;
-                result = calculateExpression();
-                updateBottomDisplayWithCurrentExpression();
-                resetVariablesAfterCalculation();
-                updateBottomDisplayWithCurrentExpression();
-            }
-        }
+    // Handle Second Number
+    else if(secondNumber !== "" && isValidSquareRoot(secondNumber)){
+
+        setSecondNumberWithResult();
+
+        result = calculateExpression();
+
+        updateBottomDisplayWithCurrentExpression();
+        resetVariablesAfterCalculation();
+        updateBottomDisplayWithCurrentExpression();
     }
 }
 
 function squaredClicked(){
 
-    if(basicOperatorNotClickedPreviously){
-        if(isValidSquare(firstNumber)){
-            setFirstNumberWithResult();
-            resetVariablesAfterCalculation();
-            updateBottomDisplayWithCurrentExpression();
-        }
+    // Handle First number
+    if(basicOperatorNotClickedPreviously && isValidSquare(firstNumber)){
+        setFirstNumberWithResult();
+        resetVariablesAfterCalculation();
+        updateBottomDisplayWithCurrentExpression();
     }
 
-    else{
-        if(secondNumber !== ""){
-            if(isValidSquare(secondNumber)){
-                secondNumber = result;
-                result = calculateExpression();
-                resetVariablesAfterCalculation();
-                updateBottomDisplayWithCurrentExpression();
-            }
-        }
+    // Handle Second Number
+    else if(secondNumber !== "" && isValidSquare(secondNumber)){
+
+        setSecondNumberWithResult();
+
+        result = calculateExpression();
+
+        resetVariablesAfterCalculation();
+        updateBottomDisplayWithCurrentExpression();
     }
 }
 
 function percentClicked(){
 
-    if(basicOperatorNotClickedPreviously){
-        if(isValidPercent(firstNumber)){
-            setFirstNumberWithResult();
-            resetVariablesAfterCalculation();
-            updateBottomDisplayWithCurrentExpression();
-        }
+    // Handle First Number
+    if(basicOperatorNotClickedPreviously && isValidPercent(firstNumber)){
+        setFirstNumberWithResult();
+        resetVariablesAfterCalculation();
+        updateBottomDisplayWithCurrentExpression();
     }
     
-    else{
-        if(isValidPercent(secondNumber)){
-            secondNumber = result;
-            result = calculateExpression();
-            resetVariablesAfterCalculation();
-            updateBottomDisplayWithCurrentExpression();
-        }
+    // Handle Second Number
+    else if(isValidPercent(secondNumber)){
+
+        setSecondNumberWithResult();
+
+        result = calculateExpression();
+
+        resetVariablesAfterCalculation();
+        updateBottomDisplayWithCurrentExpression();
     }
 }
 
 function plusMinusClicked(){
 
+    // Handle First Number
     if(basicOperatorNotClickedPreviously && firstNumber !== ""){
+
         firstNumber *= -1;
+
         updateBottomDisplayWithCurrentExpression();
     }
 
+    // Handle Second Number
     else if(secondNumber !== ""){
+
         secondNumber *= -1;
+
         updateBottomDisplayWithCurrentExpression();
     }
 }
 
 function decimalClicked(){
 
-    // If decimal was NOT Clicked previously AND operator was not clicked
+    // Handle First Number
     if(decimalNotClicked && basicOperatorNotClickedPreviously === true){
 
         decimalNotClicked = false;
@@ -325,7 +373,7 @@ function decimalClicked(){
         updateBottomDisplayWithCurrentExpression();
     }
 
-    // If decimal was NOT Clicked previously AND a operator was clicked
+    // Handle Second Number
     if(decimalNotClicked && basicOperatorNotClickedPreviously === false){
 
         decimalNotClicked = false;
@@ -339,25 +387,14 @@ function decimalClicked(){
         updateBottomDisplayWithCurrentExpression();
     }
 
+    // Handle no non zeros clicked
     if(resultDoesNotExist === false){
+
         resetVariablesAfterCalculation();
+
         firstNumber = "0" + buttonClickedValue;
+
         resetResultDoesNotExist();
-        updateBottomDisplayWithCurrentExpression();
-    }
-}
-
-function numberClicked(){
-
-    // If a operator was NOT Clicked previously
-    if(basicOperatorNotClickedPreviously){
-        buildStringFirstNumber();
-        updateBottomDisplayWithCurrentExpression();
-    }
-
-    // Operator Clicked previously AND a first number exist
-    else{
-        buildStringSecondNumber();
         updateBottomDisplayWithCurrentExpression();
     }
 }
@@ -387,31 +424,51 @@ function calculateExpression(){
 
 function isValidResultEqualsPressed(){
 
-    result = calculateExpression();
+    // Update the top part of the display
     updateTopDisplayWithPreviousExpression();
+    updateTopDisplayWithEqualsSymbol();
+
+    result = calculateExpression();
     
     return isValidResult();
 }
 
 function isValidSquare(number){
 
-    result = Number(number * number);
+    // Update the top part of the display
     updateTopDisplayWithPreviousExpression();
     displayTop.innerText += symbolSquared_2;
+    updateTopDisplayWithEqualsSymbol();
+
+    result = Number(number * number);
 
     return isValidResult();
 }
 
 function isValidPercent(number){
     
-    result = number *= 0.01;
+    // Update the top part of the display
     updateTopDisplayWithPreviousExpression();
     displayTop.innerText += symbolPercent;
+    updateTopDisplayWithEqualsSymbol();
+
+    result = number *= 0.01;
 
     return isValidResult();
 }
 
 function isValidSquareRoot(number){
+
+    // Update the top part of the display
+    if(secondNumber !== ""){
+        displayTop.innerText = firstNumber + " " + operator;
+        displayTop.innerText += " " + symbolSquareRoot + " " + secondNumber;
+        updateTopDisplayWithEqualsSymbol();
+    }
+    else{
+        displayTop.innerText = symbolSquareRoot + " " + firstNumber;
+        updateTopDisplayWithEqualsSymbol();
+    }
 
     result = Math.sqrt(Number(number));
 
@@ -462,14 +519,16 @@ function buildStringFirstNumber(){
             firstNumber += buttonClickedValue;
         }
         
-        document.querySelector("#button-ac").innerText = symbolClear;
+        setClearButton();
     }
 
-    // If result exist then user wants to build a new FirstNumber after a previous result
+    // If result exist then user wants to build a new FirstNumber
     else{
+        
         resetFirstNumber();
         resetDecimalNotClicked();
         resetResultDoesNotExist();
+
         firstNumber = buttonClickedValue;
     }
 }
@@ -491,11 +550,13 @@ function buildStringSecondNumber(){
 
     // CASE 3: Remove any starting zero if no decimal was pressed
     else if(secondNumber === zero){
+
         resetSecondNumber();
+
         secondNumber += buttonClickedValue;
     }
 
-    // CASE 4: It's ok to add a zero after only if case 3 executes
+    // CASE 4: It's ok to add a zero only if case 3 executes
     else if(buttonClickedValue === zero){
         secondNumber += buttonClickedValue;
     }
@@ -515,7 +576,19 @@ function updateBottomDisplayWithResult(){
     }
 }
 
+function updateTopDisplayWithEqualsSymbol(){
+
+    displayTop.innerText += " " + symbolEquals;
+}
+
+function updateTopAndBottomDisplayAllClear() {
+
+    displayBottom.innerHTML = "0";
+    displayTop.innerHTML = "";
+}
+
 function updateBottomDisplayWithErrorMessage(){
+
     displayBottom.innerText = "Error";
 }
 
@@ -551,11 +624,6 @@ function updateTopDisplayWithPreviousExpression(){
     }
 }
 
-function updateTopAndBottomDisplayAllClear() {
-    displayBottom.innerHTML = "0";
-    displayTop.innerHTML = "";
-}
-
 // ┌─────────────────────────────┐
 // │   Set And Reset Functions   │	
 // └─────────────────────────────┘
@@ -566,6 +634,18 @@ function setOperator(){
 
 function setFirstNumberWithResult(){
     firstNumber = result;
+}
+
+function setSecondNumberWithResult(){
+    secondNumber = result;
+}
+
+function setAllClearButton(){
+    document.querySelector("#button-ac").innerText = symbolAllClear;
+}
+
+function setClearButton(){
+    document.querySelector("#button-ac").innerText = symbolClear;
 }
 
 function resetVariablesAllClearClicked(){
@@ -611,18 +691,3 @@ function resetDecimalNotClicked(){
 function resetResultDoesNotExist(){
     resultDoesNotExist = true;
 }
-
-// ---------------------------------------------
-// ---------------------------------------------
-//
-// Bugs: None
-//
-// TODO: Refactor
-// TODO: Divide code into separate files
-//
-// Feature ---> Engineering Notation
-// Feature ---> Equals sign on top display
-// Feature ---> More buttons
-//
-// ---------------------------------------------
-// ---------------------------------------------
