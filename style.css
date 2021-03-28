@@ -95,7 +95,7 @@ input:checked + label {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    overflow-y:auto;
+    overflow-y: auto;
 }
 
 #display-bottom {

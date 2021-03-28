@@ -171,7 +171,6 @@ function equalsClicked(){
             firstNumber = result;
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
-            //resetVariablesAfterCalculation();
         }
     }
     else if(repeaterBasicOperator != "") {
@@ -182,7 +181,7 @@ function equalsClicked(){
             firstNumber = result;
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
-            //resetVariablesAfterCalculation();
+            basicOperatorNotClickedPreviously = false;
         }
     }
 }
@@ -206,14 +205,14 @@ function clearClicked(){
 
     else if(operator !== ""){
         let temp = firstNumber;
-        resetVariablesAfterCalculation();
+        resetVariablesAllClearClicked();
         firstNumber = temp;
         updateBottomDisplayWithCurrentExpression();
     }
 
     else if(firstNumber !== ""){
-        //resetVariablesAllClearClicked();
-        //firstNumber = "0";
+        resetVariablesAllClearClicked();
+        firstNumber = "0";
         updateBottomDisplayWithCurrentExpression();
         document.querySelector("#button-ac").innerText = symbolAllClear;
     }
@@ -434,6 +433,15 @@ function isValidSquareRoot(number){
 // │   String Building Functions   │	
 // └───────────────────────────────┘
 
+// function formatNumber(number){
+
+//     if(number.length > 9){
+//         number = Number.parseFloat(number).toPrecision(4);
+//     }
+
+//     return number;
+// }
+
 // TODO: Refactor
 
 // TODO: Engineering Notation: firstNumber = Number(firstNumber).toPrecision(3);
@@ -465,7 +473,7 @@ function buildStringFirstNumber(){
         else if(buttonClickedValue === zero){
             firstNumber += buttonClickedValue;
         }
-
+        
         document.querySelector("#button-ac").innerText = symbolClear;
     }
 
@@ -478,7 +486,6 @@ function buildStringFirstNumber(){
     }
 }
 
-// TODO: Engineering Notation:  secondNumber = Number(secondNumber).toPrecision(3);
 function buildStringSecondNumber(){
 
     const zero = "0";
@@ -540,11 +547,11 @@ function updateBottomDisplayWithErrorMessage(){
 function updateTopDisplayWithPreviousExpression(){
 
     if(secondNumber < 0){
-        displayTop.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")" + " =";
+        displayTop.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")";
     }
 
     else{
-        displayTop.innerText = firstNumber + " " + operator + " " + secondNumber + " =";
+        displayTop.innerText = firstNumber + " " + operator + " " + secondNumber;
     }
 }
 
@@ -600,7 +607,14 @@ function resetResultDoesNotExist(){
 // ---------------------------------------------
 // ---------------------------------------------
 //
+// Bugs: None
+//
+// TODO: Refactor
+// TODO: Divide code into separate files
+//
 // Feature ---> Engineering Notation
+// Feature ---> Equals sign on top display
+// Feature ---> More buttons
 //
 // ---------------------------------------------
 // ---------------------------------------------
