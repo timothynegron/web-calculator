@@ -126,7 +126,6 @@ function basicOperatorClicked(){
 
     // CASE: Basic operator clicked and first number empty
     if(firstNumber === ""){
-
         firstNumber = "0";
     }
 
@@ -243,6 +242,8 @@ function clearClicked(){
         firstNumber = temp_1;
         operator = temp_2;
 
+        basicOperatorNotClickedPreviously = false;
+
         updateBottomDisplayWithCurrentExpression();
     }
 
@@ -328,6 +329,10 @@ function squaredClicked(){
 
 function percentClicked(){
 
+    if(firstNumber === ""){
+        firstNumber = "0";
+    }
+
     // Handle First Number
     if(basicOperatorNotClickedPreviously && isValidPercent(firstNumber)){
         setFirstNumberWithAnswer();
@@ -336,14 +341,20 @@ function percentClicked(){
     }
     
     // Handle Second Number
-    else if(isValidPercent(secondNumber)){
+    else{
 
-        setSecondNumberWithAnswer();
+        if(secondNumber === ""){
+            secondNumber = "0";
+        }
+        
+        if(isValidPercent(secondNumber)){
+            setSecondNumberWithAnswer();
 
-        answer = calculateExpression();
-
-        resetVariablesAfterCalculation();
-        updateBottomDisplayWithCurrentExpression();
+            answer = calculateExpression();
+    
+            resetVariablesAfterCalculation();
+            updateBottomDisplayWithCurrentExpression();
+        }
     }
 }
 
@@ -444,6 +455,10 @@ function isValidAnswerEqualsClicked(){
 
 function isValidSquare(number){
 
+    if(number === ""){
+        number = "0"
+    }
+
     // Update the top part of the display
     updateTopDisplayWithPreviousExpression();
     displayTop.innerText += symbolSquared_2;
@@ -461,7 +476,7 @@ function isValidPercent(number){
     displayTop.innerText += symbolPercent;
     updateTopDisplayWithEqualsSymbol();
 
-    answer = number *= 0.01;
+    answer = Number(number * 0.01);
 
     return isValidAnswer();
 }
@@ -600,22 +615,23 @@ function updateBottomDisplayWithAnswer(){
 }
 
 function updateTopDisplayWithEqualsSymbol(){
-
     displayTop.innerText += " " + symbolEquals;
 }
 
 function updateTopAndBottomDisplayAllClear() {
-
     displayBottom.innerHTML = "0";
     displayTop.innerHTML = "";
 }
 
 function updateBottomDisplayWithErrorMessage(){
-
     displayBottom.innerText = "Error";
 }
 
 function updateBottomDisplayWithCurrentExpression(){
+
+    if(displayBottom.innerText === "Error"){
+        displayTop.innerText = "";
+    }
 
     if(firstNumber < 0 && secondNumber < 0){
         displayBottom.innerText = "(" + firstNumber + ")";
