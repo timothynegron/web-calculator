@@ -173,6 +173,7 @@ function basicOperatorClickedPreviously(){
         setFirstNumberWithAnswer();
         setOperator();
         updateBottomDisplayWithCurrentExpression();
+        updateTopDisplayWithAnswer();
     }
 }
 
