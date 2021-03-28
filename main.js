@@ -147,7 +147,7 @@ function basicOperatorClickedAgain(){
     }
 
     // If there is a second number and valid result, display the result and operator
-    if(secondNumber !== "" && isValidResult()){
+    if(secondNumber !== "" && isValidResultEqualsPressed()){
 
         resetDecimalNotClicked();
         resetSecondNumber();
@@ -162,7 +162,7 @@ function equalsClicked(){
 
     //Only calculate only if there is an existing value for each variable
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
-        if(isValidResult()){
+        if(isValidResultEqualsPressed()){
             repeaterFirstNumber = secondNumber;
             repeaterBasicOperator = operator;
             updateBottomDisplayWithResult();
@@ -171,7 +171,7 @@ function equalsClicked(){
     }
     else if(firstNumber !== "" && operator !== ""){
         secondNumber = repeaterFirstNumber;
-        if(isValidResult()){
+        if(isValidResultEqualsPressed()){
             resetSecondNumber();
             firstNumber = result;
             updateBottomDisplayWithCurrentExpression();
@@ -181,7 +181,7 @@ function equalsClicked(){
     else if(repeaterBasicOperator != "") {
         secondNumber = repeaterFirstNumber;
         operator = repeaterBasicOperator;
-        if(isValidResult()){
+        if(isValidResultEqualsPressed()){
             resetSecondNumber();
             firstNumber = result;
             updateBottomDisplayWithCurrentExpression();
@@ -385,63 +385,47 @@ function calculateExpression(){
     }
 }
 
-function isValidResult(){
+function isValidResultEqualsPressed(){
 
     result = calculateExpression();
-
     updateTopDisplayWithPreviousExpression();
     
-    if(isNaN(result)){
-        updateBottomDisplayWithErrorMessage();
-        resetVariablesAllClearClicked();
-        return false;
-    }
-
-    return true;
+    return isValidResult();
 }
 
 function isValidSquare(number){
 
     result = Number(number * number);
-
     updateTopDisplayWithPreviousExpression();
     displayTop.innerText += symbolSquared_2;
 
-    if(isNaN(result)){
-        updateBottomDisplayWithErrorMessage();
-        resetVariablesAllClearClicked();
-        return false;
-    }
-
-    return true;
+    return isValidResult();
 }
 
 function isValidPercent(number){
     
     result = number *= 0.01;
-
     updateTopDisplayWithPreviousExpression();
     displayTop.innerText += symbolPercent;
 
-    if(isNaN(result)){
-        updateBottomDisplayWithErrorMessage();
-        resetVariablesAllClearClicked();
-        return false;
-    }
-
-    return true;
+    return isValidResult();
 }
 
 function isValidSquareRoot(number){
 
     result = Math.sqrt(Number(number));
 
+    return isValidResult();
+}
+
+function isValidResult(){
+
     if(isNaN(result)){
         updateBottomDisplayWithErrorMessage();
         resetVariablesAllClearClicked();
         return false;
     }
-    
+
     return true;
 }
 
@@ -481,7 +465,7 @@ function buildStringFirstNumber(){
         document.querySelector("#button-ac").innerText = symbolClear;
     }
 
-    // User wants to build a new FirstNumber after a previous result
+    // If result exist then user wants to build a new FirstNumber after a previous result
     else{
         resetFirstNumber();
         resetDecimalNotClicked();
@@ -543,11 +527,9 @@ function updateBottomDisplayWithCurrentExpression(){
     else if(firstNumber < 0){
         displayBottom.innerText = "(" + firstNumber + ")" + " " + operator + " " + secondNumber;
     }
-
     else if(secondNumber < 0){
         displayBottom.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")";
     }
-
     else{
         displayBottom.innerText = firstNumber + " " + operator + " " + secondNumber;
     }
@@ -561,11 +543,9 @@ function updateTopDisplayWithPreviousExpression(){
     else if(firstNumber < 0){
         displayTop.innerText = "(" + firstNumber + ")" + " " + operator + " " + secondNumber;
     }
-
     else if(secondNumber < 0){
         displayTop.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")";
     }
-
     else{
         displayTop.innerText = firstNumber + " " + operator + " " + secondNumber;
     }
