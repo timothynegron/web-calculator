@@ -1,6 +1,6 @@
-// ┌─────────────────────────────────┐
-// │   Initialize Global Variables   │	
-// └─────────────────────────────────┘
+// ┌──────────────────────┐
+// │   Global Variables   │	
+// └──────────────────────┘
 
 let firstNumber = "";
 let secondNumber = "";
@@ -30,15 +30,12 @@ const symbolSubtract = "-";
 const symbolMultiply = "×";
 const symbolDivide = "÷";
 
-// ┌─────────────────────────┐
-// │   Set Event Listeners   │	
-// └─────────────────────────┘
+// ┌─────────────────────┐
+// │   Event Listeners   │	
+// └─────────────────────┘
 
+// Set button event listeners
 setEventListeners();
-
-// ┌─────────────────────────────┐
-// │   Event Listener Function   │	
-// └─────────────────────────────┘
 
 function setEventListeners(){
 
@@ -51,9 +48,9 @@ function setEventListeners(){
     }
 }
 
-// ┌───────────────────────────────────────────────┐
-// │   Read The Button That Was Clicked Function   │	
-// └───────────────────────────────────────────────┘
+// ┌──────────────────────┐
+// │   Read User Choice   │	
+// └──────────────────────┘
 
 function buttonClickedReadValue(){
     
@@ -182,7 +179,7 @@ function equalsClicked(){
         
         if(isValidResultEqualsClicked()){
 
-            // Set up the repeater variables
+            // Refresh the equals button repeat feature
             repeaterFirstNumber = secondNumber;
             repeaterBasicOperator = operator;
 
