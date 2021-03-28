@@ -23,6 +23,7 @@ const symbolPercent = "%";
 const symbolDecimal = ".";
 const symbolEquals = "=";
 const symbolAllClear = "AC";
+const symbolClear = "C";
 const symbolPlus = "+";
 const symbolSubtract = "-";
 const symbolMultiply = "×";
@@ -71,6 +72,10 @@ function buttonClickedReadValue(){
 
         case symbolAllClear:
             allClearClicked();
+            break;
+
+        case symbolClear:
+            clearClicked();
             break;
 
         case symbolSquareRoot:
@@ -186,6 +191,30 @@ function allClearClicked(){
 
     updateTopAndBottomDisplayAllClear();
     resetVariablesAllClearClicked();
+}
+
+function clearClicked(){
+
+    if(secondNumber !== ""){
+        let temp_1 = firstNumber;
+        let temp_2 = operator;
+        resetVariablesAfterCalculation();
+        firstNumber = temp_1;
+        operator = temp_2;
+        updateBottomDisplayWithCurrentExpression();
+    }
+
+    else if(operator !== ""){
+        let temp = firstNumber;
+        resetVariablesAfterCalculation();
+        firstNumber = temp;
+        updateBottomDisplayWithCurrentExpression();
+    }
+    
+    else if(firstNumber !== ""){
+        allClearClicked();
+        document.querySelector("#button-ac").innerText = symbolAllClear;
+    }
 }
 
 // TODO: Refactor
@@ -436,6 +465,8 @@ function buildStringFirstNumber(){
         else if(buttonClickedValue === zero){
             firstNumber += buttonClickedValue;
         }
+
+        document.querySelector("#button-ac").innerText = symbolClear;
     }
 
     // User wants to build a new FirstNumber after a previous result
