@@ -6,9 +6,9 @@ let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 let buttonClickedValue = "";
-let result = "";
+let answer = "";
 let decimalNotClicked = true;
-let resultDoesNotExist = true;
+let answerDoesNotExist = true;
 let basicOperatorNotClickedPreviously = true;
 let repeaterFirstNumber = "";
 let repeaterBasicOperator = "";
@@ -130,6 +130,11 @@ function basicOperatorClicked(){
         firstNumber = "0";
     }
 
+    // CASE: If an answer exist, update the top display
+    if(answerDoesNotExist !== true){
+        updateTopDisplayWithAnswer();
+    }
+
     // Set the equals button repeat feature
     repeaterFirstNumber = firstNumber;
     repeaterBasicOperator = operator;
@@ -163,10 +168,10 @@ function basicOperatorClickedPreviously(){
     }
 
     // CASE 2: There is a second number
-    if(secondNumber !== "" && isValidResultEqualsClicked()){
+    if(secondNumber !== "" && isValidAnswerEqualsClicked()){
         resetDecimalNotClicked();
         resetSecondNumber();
-        setFirstNumberWithResult();
+        setFirstNumberWithAnswer();
         setOperator();
         updateBottomDisplayWithCurrentExpression();
     }
@@ -177,13 +182,13 @@ function equalsClicked(){
     // CASE 1: There is a complete expression
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
         
-        if(isValidResultEqualsClicked()){
+        if(isValidAnswerEqualsClicked()){
 
             // Refresh the equals button repeat feature
             repeaterFirstNumber = secondNumber;
             repeaterBasicOperator = operator;
 
-            updateBottomDisplayWithResult();
+            updateBottomDisplayWithAnswer();
             resetVariablesAfterCalculation();
         }
     }
@@ -193,9 +198,9 @@ function equalsClicked(){
 
         secondNumber = repeaterFirstNumber;
 
-        if(isValidResultEqualsClicked()){
+        if(isValidAnswerEqualsClicked()){
             resetSecondNumber();
-            setFirstNumberWithResult();
+            setFirstNumberWithAnswer();
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
         }
@@ -207,12 +212,12 @@ function equalsClicked(){
         secondNumber = repeaterFirstNumber;
         operator = repeaterBasicOperator;
 
-        if(isValidResultEqualsClicked()){
+        if(isValidAnswerEqualsClicked()){
 
             basicOperatorNotClickedPreviously = false;
 
             resetSecondNumber();
-            setFirstNumberWithResult();
+            setFirstNumberWithAnswer();
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
             setClearButton();
@@ -282,7 +287,7 @@ function squareRootClicked(){
 
     // Handle First Number
     if(basicOperatorNotClickedPreviously && isValidSquareRoot(firstNumber)){
-        setFirstNumberWithResult();
+        setFirstNumberWithAnswer();
         resetVariablesAfterCalculation();
         updateBottomDisplayWithCurrentExpression();
     }
@@ -290,9 +295,9 @@ function squareRootClicked(){
     // Handle Second Number
     else if(secondNumber !== "" && isValidSquareRoot(secondNumber)){
 
-        setSecondNumberWithResult();
+        setSecondNumberWithAnswer();
 
-        result = calculateExpression();
+        answer = calculateExpression();
 
         updateBottomDisplayWithCurrentExpression();
         resetVariablesAfterCalculation();
@@ -304,7 +309,7 @@ function squaredClicked(){
 
     // Handle First number
     if(basicOperatorNotClickedPreviously && isValidSquare(firstNumber)){
-        setFirstNumberWithResult();
+        setFirstNumberWithAnswer();
         resetVariablesAfterCalculation();
         updateBottomDisplayWithCurrentExpression();
     }
@@ -312,9 +317,9 @@ function squaredClicked(){
     // Handle Second Number
     else if(secondNumber !== "" && isValidSquare(secondNumber)){
 
-        setSecondNumberWithResult();
+        setSecondNumberWithAnswer();
 
-        result = calculateExpression();
+        answer = calculateExpression();
 
         resetVariablesAfterCalculation();
         updateBottomDisplayWithCurrentExpression();
@@ -325,7 +330,7 @@ function percentClicked(){
 
     // Handle First Number
     if(basicOperatorNotClickedPreviously && isValidPercent(firstNumber)){
-        setFirstNumberWithResult();
+        setFirstNumberWithAnswer();
         resetVariablesAfterCalculation();
         updateBottomDisplayWithCurrentExpression();
     }
@@ -333,9 +338,9 @@ function percentClicked(){
     // Handle Second Number
     else if(isValidPercent(secondNumber)){
 
-        setSecondNumberWithResult();
+        setSecondNumberWithAnswer();
 
-        result = calculateExpression();
+        answer = calculateExpression();
 
         resetVariablesAfterCalculation();
         updateBottomDisplayWithCurrentExpression();
@@ -392,13 +397,13 @@ function decimalClicked(){
     }
 
     // Handle no non zeros clicked
-    if(resultDoesNotExist === false){
+    if(answerDoesNotExist === false){
 
         resetVariablesAfterCalculation();
 
         firstNumber = "0" + buttonClickedValue;
 
-        resetResultDoesNotExist();
+        resetAnswerDoesNotExist();
         updateBottomDisplayWithCurrentExpression();
     }
 }
@@ -426,15 +431,15 @@ function calculateExpression(){
     }
 }
 
-function isValidResultEqualsClicked(){
+function isValidAnswerEqualsClicked(){
 
     // Update the top part of the display
     updateTopDisplayWithPreviousExpression();
     updateTopDisplayWithEqualsSymbol();
 
-    result = calculateExpression();
+    answer = calculateExpression();
     
-    return isValidResult();
+    return isValidAnswer();
 }
 
 function isValidSquare(number){
@@ -444,9 +449,9 @@ function isValidSquare(number){
     displayTop.innerText += symbolSquared_2;
     updateTopDisplayWithEqualsSymbol();
 
-    result = Number(number * number);
+    answer = Number(number * number);
 
-    return isValidResult();
+    return isValidAnswer();
 }
 
 function isValidPercent(number){
@@ -456,9 +461,9 @@ function isValidPercent(number){
     displayTop.innerText += symbolPercent;
     updateTopDisplayWithEqualsSymbol();
 
-    result = number *= 0.01;
+    answer = number *= 0.01;
 
-    return isValidResult();
+    return isValidAnswer();
 }
 
 function isValidSquareRoot(number){
@@ -476,14 +481,14 @@ function isValidSquareRoot(number){
         updateTopDisplayWithEqualsSymbol();
     }
 
-    result = Math.sqrt(Number(number));
+    answer = Math.sqrt(Number(number));
 
-    return isValidResult();
+    return isValidAnswer();
 }
 
-function isValidResult(){
+function isValidAnswer(){
 
-    if(isNaN(result)){
+    if(isNaN(answer)){
         updateBottomDisplayWithErrorMessage();
         resetVariablesAllClearClicked();
         return false;
@@ -498,8 +503,12 @@ function isValidResult(){
 
 function buildStringFirstNumber(){
 
-    // CASE 1: No result from a previous equation exist, build first number
-    if(resultDoesNotExist){
+    if(answerDoesNotExist !== true){
+        updateTopDisplayWithAnswer();
+    }
+
+    // CASE 1: No answer from a previous equation exist, build first number
+    if(answerDoesNotExist){
 
         const zero = "0";
 
@@ -528,18 +537,22 @@ function buildStringFirstNumber(){
         setClearButton();
     }
 
-    // CASE 2: A result exist, but the user wants to build a new FirstNumber
+    // CASE 2: A answer exist, but the user wants to build a new FirstNumber
     else{
 
         resetFirstNumber();
         resetDecimalNotClicked();
-        resetResultDoesNotExist();
+        resetAnswerDoesNotExist();
 
         firstNumber = buttonClickedValue;
     }
 }
 
 function buildStringSecondNumber(){
+
+    if(answerDoesNotExist !== true){
+        updateTopDisplayWithAnswer();
+    }
 
     const zero = "0";
 
@@ -572,13 +585,17 @@ function buildStringSecondNumber(){
 // │   Update Display Functions   │	
 // └──────────────────────────────┘
 
-function updateBottomDisplayWithResult(){
+function updateTopDisplayWithAnswer(){
+    displayTop.innerText = `Ans ${symbolEquals} ${answer}`;
+}
 
-    if(result < 0){
-        displayBottom.innerText = "(" + result + ")";
+function updateBottomDisplayWithAnswer(){
+
+    if(answer < 0){
+        displayBottom.innerText = "(" + answer + ")";
     }
     else{
-        displayBottom.innerText = result; 
+        displayBottom.innerText = answer; 
     }
 }
 
@@ -654,12 +671,12 @@ function setOperator(){
     operator = buttonClickedValue;
 }
 
-function setFirstNumberWithResult(){
-    firstNumber = result;
+function setFirstNumberWithAnswer(){
+    firstNumber = answer;
 }
 
-function setSecondNumberWithResult(){
-    secondNumber = result;
+function setSecondNumberWithAnswer(){
+    secondNumber = answer;
 }
 
 function setAllClearButton(){
@@ -676,18 +693,18 @@ function resetVariablesAllClearClicked(){
     resetOperator();
     resetOperatorNotClickedPreviously();
     resetDecimalNotClicked();
-    resetResultDoesNotExist();
+    resetAnswerDoesNotExist();
     repeaterFirstNumber = "";
     repeaterBasicOperator = "";
 }
 
 function resetVariablesAfterCalculation(){
-    setFirstNumberWithResult();
+    setFirstNumberWithAnswer();
     resetSecondNumber();
     resetOperator();
     resetOperatorNotClickedPreviously();
     decimalNotClicked = false;
-    resultDoesNotExist = false;
+    answerDoesNotExist = false;
 }
 
 function resetFirstNumber(){
@@ -710,6 +727,6 @@ function resetDecimalNotClicked(){
     decimalNotClicked = true;
 }
 
-function resetResultDoesNotExist(){
-    resultDoesNotExist = true;
+function resetAnswerDoesNotExist(){
+    answerDoesNotExist = true;
 }
