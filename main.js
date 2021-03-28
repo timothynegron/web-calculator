@@ -1,7 +1,7 @@
 // ┌─────────────────────────────────┐
 // │   Initialize Global Variables   │	
 // └─────────────────────────────────┘
-let firstNumber = "";
+let firstNumber = "0";
 let secondNumber = "";
 let operator = "";
 let buttonClickedValue = "";
@@ -556,7 +556,7 @@ function updateTopDisplayWithPreviousExpression(){
 }
 
 function updateTopAndBottomDisplayAllClear() {
-    displayBottom.innerHTML = "0";
+    displayBottom.innerHTML = firstNumber;
     displayTop.innerHTML = "";
 }
 
@@ -581,7 +581,7 @@ function resetVariablesAfterCalculation(){
 }
 
 function resetFirstNumber(){
-    firstNumber = "";
+    firstNumber = "0";
 }
 
 function resetSecondNumber(){
