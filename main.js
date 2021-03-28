@@ -1,7 +1,7 @@
 // ┌─────────────────────────────────┐
 // │   Initialize Global Variables   │	
 // └─────────────────────────────────┘
-let firstNumber = "0";
+let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 let buttonClickedValue = "";
@@ -110,6 +110,10 @@ function buttonClickedReadValue(){
 
 function basicOperatorClicked(){
 
+    if(firstNumber === ""){
+        firstNumber = "0";
+    }
+
     repeaterFirstNumber = firstNumber;
     repeaterBasicOperator = operator;
 
@@ -127,6 +131,7 @@ function basicOperatorClicked(){
 function basicOperatorClickedSetOperator(){
 
     basicOperatorNotClickedPreviously = false;
+
 
     setOperator();
     updateBottomDisplayWithCurrentExpression();
@@ -556,7 +561,7 @@ function updateTopDisplayWithPreviousExpression(){
 }
 
 function updateTopAndBottomDisplayAllClear() {
-    displayBottom.innerHTML = firstNumber;
+    displayBottom.innerHTML = "0";
     displayTop.innerHTML = "";
 }
 
@@ -581,7 +586,7 @@ function resetVariablesAfterCalculation(){
 }
 
 function resetFirstNumber(){
-    firstNumber = "0";
+    firstNumber = "";
 }
 
 function resetSecondNumber(){
