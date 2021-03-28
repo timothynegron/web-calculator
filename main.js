@@ -228,7 +228,7 @@ function allClearClicked(){
 function clearClicked(){
 
     // CASE 1: Clear the second number
-    if(secondNumber !== ""){
+    if(secondNumber !== "" && operator !== ""){
 
         let temp_1 = firstNumber;
         let temp_2 = operator;
@@ -242,7 +242,7 @@ function clearClicked(){
     }
 
     // CASE 2: Clear the operator
-    else if(operator !== ""){
+    else if(operator !== "" && firstNumber !== ""){
 
         let temp = firstNumber;
 
@@ -256,9 +256,15 @@ function clearClicked(){
     // CASE 3: Clear the first number
     else if(firstNumber !== ""){
 
-        resetVariablesAfterCalculation();
+        let temp_1 = repeaterFirstNumber;
+        let temp_2 = repeaterBasicOperator;
+
+        resetVariablesAllClearClicked();
 
         firstNumber = "0";
+
+        repeaterFirstNumber = temp_1;
+        repeaterBasicOperator = temp_2;
 
         updateBottomDisplayWithCurrentExpression();
         setAllClearButton();
