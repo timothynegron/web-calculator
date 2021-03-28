@@ -402,7 +402,7 @@ function isValidSquareRoot(number){
 }
 
 // ┌───────────────────────────────┐
-// │   String building Functions   │	
+// │   String Building Functions   │	
 // └───────────────────────────────┘
 
 // TODO: Refactor
@@ -428,7 +428,7 @@ function buildStringFirstNumber(){
 
         // CASE 3: Remove the original zero if no decimal was pressed
         else if(firstNumber === zero){
-            firstNumber = zero;
+            firstNumber = "";
             firstNumber += buttonClickedValue;
         }
 
