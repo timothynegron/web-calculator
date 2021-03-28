@@ -202,7 +202,7 @@ function equalsClicked(){
             resetSecondNumber();
             setFirstNumberWithAnswer();
             updateBottomDisplayWithCurrentExpression();
-            updateTopDisplayWithAnswer();
+            //updateTopDisplayWithAnswer();
             resetDecimalNotClicked();
         }
     }
@@ -220,7 +220,7 @@ function equalsClicked(){
             resetSecondNumber();
             setFirstNumberWithAnswer();
             updateBottomDisplayWithCurrentExpression();
-            updateTopDisplayWithAnswer();
+            //updateTopDisplayWithAnswer();
             resetDecimalNotClicked();
             setClearButton();
         }
@@ -604,6 +604,7 @@ function buildStringSecondNumber(){
 // └──────────────────────────────┘
 
 function updateTopDisplayWithAnswer(){
+
     displayTop.innerText = `Ans ${symbolEquals} ${answer}`;
 }
 
@@ -630,31 +631,43 @@ function updateBottomDisplayWithErrorMessage(){
     displayBottom.innerText = "Error";
 }
 
+function setNumberFormat(number){
+
+    if(number.length > 9){
+        return Number(number).toExponential(6);
+    }
+
+    return number;
+}
+
 function updateBottomDisplayWithCurrentExpression(){
+
+    const firstNumber_d = setNumberFormat(firstNumber);
+    const secondNumber_d = setNumberFormat(secondNumber);
 
     if(displayBottom.innerText === "Error"){
         displayTop.innerText = "";
     }
 
     if(firstNumber < 0 && secondNumber < 0){
-        displayBottom.innerText = "(" + firstNumber + ")";
+        displayBottom.innerText = "(" + firstNumber_d + ")";
         displayBottom.innerText += " " + operator;
-        displayBottom.innerText += " " + "(" + secondNumber + ")";
+        displayBottom.innerText += " " + "(" + secondNumber_d + ")";
     }
     else if(firstNumber < 0){
-        displayBottom.innerText = "(" + firstNumber + ")";
+        displayBottom.innerText = "(" + firstNumber_d + ")";
         displayBottom.innerText += " " + operator;
-        displayBottom.innerText += " " + secondNumber;
+        displayBottom.innerText += " " + secondNumber_d;
     }
     else if(secondNumber < 0){
-        displayBottom.innerText = firstNumber;
+        displayBottom.innerText = firstNumber_d;
         displayBottom.innerText += " " + operator;
-        displayBottom.innerText += " " + "(" + secondNumber + ")";
+        displayBottom.innerText += " " + "(" + secondNumber_d + ")";
     }
     else{
-        displayBottom.innerText = firstNumber;
+        displayBottom.innerText = firstNumber_d;
         displayBottom.innerText += " " + operator;
-        displayBottom.innerText += " " + secondNumber;
+        displayBottom.innerText += " " + secondNumber_d;
     }
 }
 
