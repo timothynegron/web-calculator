@@ -166,7 +166,7 @@ function basicOperatorClickedPreviously(){
     }
 
     // CASE 2: There is a second number
-    if(secondNumber !== "" && isValidResultEqualsPressed()){
+    if(secondNumber !== "" && isValidResultEqualsClicked()){
         resetDecimalNotClicked();
         resetSecondNumber();
         setFirstNumberWithResult();
@@ -180,7 +180,7 @@ function equalsClicked(){
     // CASE 1: There is a complete expression
     if(firstNumber !== "" && operator !== "" && secondNumber !== ""){
         
-        if(isValidResultEqualsPressed()){
+        if(isValidResultEqualsClicked()){
 
             // Set up the repeater variables
             repeaterFirstNumber = secondNumber;
@@ -196,7 +196,7 @@ function equalsClicked(){
 
         secondNumber = repeaterFirstNumber;
 
-        if(isValidResultEqualsPressed()){
+        if(isValidResultEqualsClicked()){
             resetSecondNumber();
             setFirstNumberWithResult();
             updateBottomDisplayWithCurrentExpression();
@@ -210,7 +210,7 @@ function equalsClicked(){
         secondNumber = repeaterFirstNumber;
         operator = repeaterBasicOperator;
 
-        if(isValidResultEqualsPressed()){
+        if(isValidResultEqualsClicked()){
 
             basicOperatorNotClickedPreviously = false;
 
@@ -218,6 +218,7 @@ function equalsClicked(){
             setFirstNumberWithResult();
             updateBottomDisplayWithCurrentExpression();
             resetDecimalNotClicked();
+            setClearButton();
         }
     }
 }
@@ -248,7 +249,7 @@ function clearClicked(){
 
         let temp = firstNumber;
 
-        resetVariablesAllClearClicked();
+        resetVariablesAfterCalculation();
 
         firstNumber = temp;
 
@@ -258,7 +259,7 @@ function clearClicked(){
     // CASE 3: Clear the first number
     else if(firstNumber !== ""){
 
-        resetVariablesAllClearClicked();
+        resetVariablesAfterCalculation();
 
         firstNumber = "0";
 
@@ -422,7 +423,7 @@ function calculateExpression(){
     }
 }
 
-function isValidResultEqualsPressed(){
+function isValidResultEqualsClicked(){
 
     // Update the top part of the display
     updateTopDisplayWithPreviousExpression();
@@ -459,12 +460,14 @@ function isValidPercent(number){
 
 function isValidSquareRoot(number){
 
-    // Update the top part of the display
+    // CASE 1: There is a second number
     if(secondNumber !== ""){
         displayTop.innerText = firstNumber + " " + operator;
         displayTop.innerText += " " + symbolSquareRoot + " " + secondNumber;
         updateTopDisplayWithEqualsSymbol();
     }
+
+    // CASE 2: There is no second number
     else{
         displayTop.innerText = symbolSquareRoot + " " + firstNumber;
         updateTopDisplayWithEqualsSymbol();
@@ -492,7 +495,7 @@ function isValidResult(){
 
 function buildStringFirstNumber(){
 
-    // If no result from a previous equation exist, build the first number
+    // CASE 1: No result from a previous equation exist, build first number
     if(resultDoesNotExist){
 
         const zero = "0";
@@ -502,13 +505,13 @@ function buildStringFirstNumber(){
             firstNumber += buttonClickedValue;
         }
         
-        // CASE 2: Add a zero before a decimal if no non zero numbers were clicked previously
+        // CASE 2: Add a zero before a decimal if no non zero numbers exist
         else if(firstNumber === zero && buttonClickedValue === symbolDecimal){
             firstNumber = zero;
             firstNumber += buttonClickedValue;
         }
 
-        // CASE 3: Remove any starting zero if no decimal was pressed
+        // CASE 3: Remove any starting zero if no decimal was clicked
         else if(firstNumber === zero){
             resetFirstNumber();
             firstNumber += buttonClickedValue;
@@ -522,9 +525,9 @@ function buildStringFirstNumber(){
         setClearButton();
     }
 
-    // If result exist then user wants to build a new FirstNumber
+    // CASE 2: A result exist, but the user wants to build a new FirstNumber
     else{
-        
+
         resetFirstNumber();
         resetDecimalNotClicked();
         resetResultDoesNotExist();
@@ -542,13 +545,13 @@ function buildStringSecondNumber(){
         secondNumber += buttonClickedValue;
     }
     
-    // CASE 2: Add a zero before a decimal if no non zero numbers were clicked previously
+    // CASE 2: Add a zero before a decimal if no non zero numbers exist
     else if(secondNumber === zero && buttonClickedValue === symbolDecimal){
         secondNumber = zero;
         secondNumber += buttonClickedValue;
     }
 
-    // CASE 3: Remove any starting zero if no decimal was pressed
+    // CASE 3: Remove any starting zero if no decimal was clicked
     else if(secondNumber === zero){
 
         resetSecondNumber();
@@ -595,32 +598,48 @@ function updateBottomDisplayWithErrorMessage(){
 function updateBottomDisplayWithCurrentExpression(){
 
     if(firstNumber < 0 && secondNumber < 0){
-        displayBottom.innerText = "(" + firstNumber + ")" + " " + operator + " " + "(" + secondNumber + ")";
+        displayBottom.innerText = "(" + firstNumber + ")";
+        displayBottom.innerText += " " + operator;
+        displayBottom.innerText += " " + "(" + secondNumber + ")";
     }
     else if(firstNumber < 0){
-        displayBottom.innerText = "(" + firstNumber + ")" + " " + operator + " " + secondNumber;
+        displayBottom.innerText = "(" + firstNumber + ")";
+        displayBottom.innerText += " " + operator;
+        displayBottom.innerText += " " + secondNumber;
     }
     else if(secondNumber < 0){
-        displayBottom.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")";
+        displayBottom.innerText = firstNumber;
+        displayBottom.innerText += " " + operator;
+        displayBottom.innerText += " " + "(" + secondNumber + ")";
     }
     else{
-        displayBottom.innerText = firstNumber + " " + operator + " " + secondNumber;
+        displayBottom.innerText = firstNumber;
+        displayBottom.innerText += " " + operator;
+        displayBottom.innerText += " " + secondNumber;
     }
 }
 
 function updateTopDisplayWithPreviousExpression(){
 
     if(firstNumber < 0 && secondNumber < 0){
-        displayTop.innerText = "(" + firstNumber + ")" + " " + operator + " " + "(" + secondNumber + ")";
+        displayTop.innerText = "(" + firstNumber + ")";
+        displayTop.innerText += " " + operator;
+        displayTop.innerText += " " + "(" + secondNumber + ")";
     }
     else if(firstNumber < 0){
-        displayTop.innerText = "(" + firstNumber + ")" + " " + operator + " " + secondNumber;
+        displayTop.innerText = "(" + firstNumber + ")";
+        displayTop.innerText += " " + operator;
+        displayTop.innerText += " " + secondNumber;
     }
     else if(secondNumber < 0){
-        displayTop.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")";
+        displayTop.innerText = firstNumber;
+        displayTop.innerText += " " + operator;
+        displayTop.innerText += " " + "(" + secondNumber + ")";
     }
     else{
-        displayTop.innerText = firstNumber + " " + operator + " " + secondNumber;
+        displayTop.innerText = firstNumber;
+        displayTop.innerText +=  " " + operator;
+        displayTop.innerText += " " + secondNumber;
     }
 }
 
