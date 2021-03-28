@@ -210,9 +210,11 @@ function clearClicked(){
         firstNumber = temp;
         updateBottomDisplayWithCurrentExpression();
     }
-    
+
     else if(firstNumber !== ""){
-        allClearClicked();
+        //resetVariablesAllClearClicked();
+        //firstNumber = "0";
+        updateBottomDisplayWithCurrentExpression();
         document.querySelector("#button-ac").innerText = symbolAllClear;
     }
 }
@@ -285,7 +287,6 @@ function percentClicked(){
     }
 }
 
-// TODO: Parenthesis feature
 function plusMinusClicked(){
 
     if(basicOperatorNotClickedPreviously && firstNumber !== ""){
@@ -297,7 +298,6 @@ function plusMinusClicked(){
         secondNumber *= -1;
         updateBottomDisplayWithCurrentExpression();
     }
-    // if number less then zero, add parenthesis
 }
 
 function decimalClicked(){
@@ -519,7 +519,14 @@ function setFirstNumberWithResult(){
 }
 
 function updateBottomDisplayWithCurrentExpression(){
-    displayBottom.innerText = firstNumber + operator + secondNumber;
+
+    if(secondNumber < 0){
+        displayBottom.innerText = firstNumber + operator + "(" + secondNumber + ")";
+    }
+
+    else{
+        displayBottom.innerText = firstNumber + operator + secondNumber;
+    }
 }
 
 function updateBottomDisplayWithResult(){
@@ -532,7 +539,13 @@ function updateBottomDisplayWithErrorMessage(){
 
 function updateTopDisplayWithPreviousExpression(){
 
-    displayTop.innerText = firstNumber + " " + operator + " " + secondNumber;
+    if(secondNumber < 0){
+        displayTop.innerText = firstNumber + " " + operator + " " + "(" + secondNumber + ")" + " =";
+    }
+
+    else{
+        displayTop.innerText = firstNumber + " " + operator + " " + secondNumber + " =";
+    }
 }
 
 function updateTopAndBottomDisplayAllClear() {
@@ -587,10 +600,7 @@ function resetResultDoesNotExist(){
 // ---------------------------------------------
 // ---------------------------------------------
 //
-// Feature ---> Parenthesis around negative number for second number (build parenthesis)
 // Feature ---> Engineering Notation
-// Feature ---> AC turns to Clear
-// Feature ---> Operator pressed without a zero adds a 0
 //
 // ---------------------------------------------
 // ---------------------------------------------
