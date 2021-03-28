@@ -202,6 +202,7 @@ function equalsClicked(){
             resetSecondNumber();
             setFirstNumberWithAnswer();
             updateBottomDisplayWithCurrentExpression();
+            updateTopDisplayWithAnswer();
             resetDecimalNotClicked();
         }
     }
@@ -219,6 +220,7 @@ function equalsClicked(){
             resetSecondNumber();
             setFirstNumberWithAnswer();
             updateBottomDisplayWithCurrentExpression();
+            updateTopDisplayWithAnswer();
             resetDecimalNotClicked();
             setClearButton();
         }
