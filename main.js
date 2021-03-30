@@ -289,6 +289,10 @@ function clearClicked(){
 
 function squareRootClicked(){
 
+    if(firstNumber === ""){
+        firstNumber = "0";
+    }
+
     // Handle First Number
     if(basicOperatorNotClickedPreviously && isValidSquareRoot(firstNumber)){
         setFirstNumberWithAnswer();
@@ -310,6 +314,10 @@ function squareRootClicked(){
 }
 
 function squaredClicked(){
+
+    if(firstNumber === ""){
+        firstNumber = "0";
+    }
 
     // Handle First number
     if(basicOperatorNotClickedPreviously && isValidSquare(firstNumber)){
