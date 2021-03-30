@@ -611,23 +611,8 @@ function buildStringSecondNumber(){
 // │   Update Display Functions   │	
 // └──────────────────────────────┘
 
-function updateTopDisplayWithAnswer(){
-
-    displayTop.innerText = `Ans ${symbolEquals} ${answer}`;
-}
-
-function updateBottomDisplayWithAnswer(){
-
-    if(answer < 0){
-        displayBottom.innerText = "(" + answer + ")";
-    }
-    else{
-        displayBottom.innerText = answer; 
-    }
-}
-
 function updateTopDisplayWithEqualsSymbol(){
-    displayTop.innerText += " " + symbolEquals;
+    displayTop.innerText += ` ${symbolEquals}`;
 }
 
 function updateTopAndBottomDisplayAllClear() {
@@ -639,24 +624,38 @@ function updateBottomDisplayWithErrorMessage(){
     displayBottom.innerText = "Error";
 }
 
-function setNumberFormat(number){
+function updateTopDisplayWithAnswer(){
 
-    if(number.length > 9){
-        return Number(number).toExponential(6);
+    // Convert large numbers to engineering notation
+    const answer_d = setNumberFormat(answer.toString());
+
+    displayTop.innerText = `Ans ${symbolEquals} ${answer_d}`;
+}
+
+function updateBottomDisplayWithAnswer(){
+
+    // Convert large numbers to engineering notations
+    const answer_d = setNumberFormat(answer.toString());
+
+    if(answer < 0){
+        displayBottom.innerText = `(${answer_d})`;
     }
-
-    return number;
+    else{
+        displayBottom.innerText = `${answer_d}`; 
+    }
 }
 
 function updateBottomDisplayWithCurrentExpression(){
 
-    const firstNumber_d = setNumberFormat(firstNumber);
-    const secondNumber_d = setNumberFormat(secondNumber);
+    // Convert large numbers to engineering notation
+    const firstNumber_d = setNumberFormat(firstNumber.toString());
+    const secondNumber_d = setNumberFormat(secondNumber.toString());
 
     if(displayBottom.innerText === "Error"){
         displayTop.innerText = "";
     }
 
+    // If any numbers is less than zero display with parenthesis
     if(firstNumber < 0 && secondNumber < 0){
         displayBottom.innerText = "(" + firstNumber_d + ")";
         displayBottom.innerText += " " + operator;
@@ -681,25 +680,34 @@ function updateBottomDisplayWithCurrentExpression(){
 
 function updateTopDisplayWithPreviousExpression(){
 
+    // Convert large numbers to engineering notation
+    const firstNumber_d = setNumberFormat(firstNumber.toString());
+    const secondNumber_d = setNumberFormat(secondNumber.toString());
+
+    if(displayBottom.innerText === "Error"){
+        displayTop.innerText = "";
+    }
+
+    // If any numbers is less than zero display with parenthesis
     if(firstNumber < 0 && secondNumber < 0){
-        displayTop.innerText = "(" + firstNumber + ")";
+        displayTop.innerText = "(" + firstNumber_d + ")";
         displayTop.innerText += " " + operator;
-        displayTop.innerText += " " + "(" + secondNumber + ")";
+        displayTop.innerText += " " + "(" + secondNumber_d + ")";
     }
     else if(firstNumber < 0){
-        displayTop.innerText = "(" + firstNumber + ")";
+        displayTop.innerText = "(" + firstNumber_d + ")";
         displayTop.innerText += " " + operator;
-        displayTop.innerText += " " + secondNumber;
+        displayTop.innerText += " " + secondNumber_d;
     }
     else if(secondNumber < 0){
-        displayTop.innerText = firstNumber;
+        displayTop.innerText = firstNumber_d;
         displayTop.innerText += " " + operator;
-        displayTop.innerText += " " + "(" + secondNumber + ")";
+        displayTop.innerText += " " + "(" + secondNumber_d + ")";
     }
     else{
-        displayTop.innerText = firstNumber;
+        displayTop.innerText = firstNumber_d;
         displayTop.innerText +=  " " + operator;
-        displayTop.innerText += " " + secondNumber;
+        displayTop.innerText += " " + secondNumber_d;
     }
 }
 
@@ -725,6 +733,15 @@ function setAllClearButton(){
 
 function setClearButton(){
     document.querySelector("#button-ac").innerText = symbolClear;
+}
+
+function setNumberFormat(number){
+
+    if(number.length > 9){
+        return Number(number).toExponential(6);
+    }
+
+    return number;
 }
 
 function resetVariablesAllClearClicked(){
